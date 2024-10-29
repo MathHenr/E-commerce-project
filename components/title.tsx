@@ -1,6 +1,7 @@
 import { ComponentProps } from "react"
 
-interface TitleProps extends ComponentProps<'h1'> {}
+interface TitleProps extends ComponentProps<'h1'> {
+}
 
 export const Title = (h1: TitleProps) => {
     return (

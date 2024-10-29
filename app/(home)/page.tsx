@@ -62,7 +62,7 @@ export default function Page () {
                     <Image className="lg:absolute xl:-top-4 lg:top-32 xl:max-w-[680px] max-w-[480px]" width={680} height={680} src="/model_1.png" alt="Modelos" />
                 </div>
             </div>
-            <div className="h-[122px] w-full bg-slate-900 xl:mt-32 lg:mt-12 -mt-4 text-slate-300 flex items-center justify-evenly gap-12 overflow-hidden">
+            <div className="min-h-[122px] w-full bg-slate-900 xl:mt-32 lg:mt-12 -mt-4 text-slate-300 flex items-center justify-evenly overflow-hidden">
                 {brands.map((brand) => (
                     <Image
                         height={112}
@@ -74,6 +74,16 @@ export default function Page () {
                     />
                 ))}
             </div>
+            <div className="max-w-screen-2xl mx-auto min-h-[620px] lg:flex items-end justify-between relative">
+                <section className="min-h-screen w-full flex flex-col items-center pt-20">
+                    <div>
+                        <Title>
+                            New Arrivals
+                        </Title>
+                    </div>
+                </section>
+            </div>
+            
         </div>
     )
 }
