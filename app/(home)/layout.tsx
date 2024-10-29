@@ -10,7 +10,7 @@ export default function HomeLayout ({ children }: Props) {
         <>
             <SalePopup />
             <Navigation />
-            <main className="">
+            <main>
                 { children }
             </main>
         </>
