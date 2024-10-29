@@ -10,7 +10,7 @@ export default function HomeLayout ({ children }: Props) {
         <>
             <SalePopup />
             <Navigation />
-            <main className="max-w-screen-2xl mx-auto min-h-screen">
+            <main className="max-w-screen-2xl mx-auto min-h-screen py-4">
                 { children }
             </main>
         </>
