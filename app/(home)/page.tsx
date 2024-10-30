@@ -1,9 +1,9 @@
 import Image from "next/image"
+import { Star } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Title } from "@/components/title"
 import { Button } from "@/components/ui/button"
-import { Product } from "@/components/product"
 
 const brands = [
     {
@@ -98,14 +98,27 @@ export default function Page () {
                     />
                 ))}
             </div>
-            <div className="max-w-screen-2xl mx-auto w-full">
-                <section className="min-h-screen w-full flex flex-col items-center pt-20">
+            <div className="max-w-screen-2xl mx-auto w-full overflow-hidden">
+                <section className="min-h-screen w-full flex flex-col items-center px-4 py-2 pt-20">
                     <Title>
                         NEW ARRIVALS
                     </Title>
-                    <div className="w-[90%] min-h-[620px] lg:py-4 py-0 flex items-center justify-around space-x-4">
+                    <div className="w-full min-h-[420px] lg:py-4 py-0 flex items-center justify-around space-x-4">
                         {arrivals.map((arrive) => (
-                            // TODO: fazer um componente produto que vira flex-col quando responseivo
+                            <div
+                                key={arrive.name}
+                                className="flex flex-col items-center w-full"
+                            >
+                                <div className="lg:size-[248px] size-[224px] rounded-xl shadow-sm transition-shadow delay-100 hover:shadow-md bg-white" />
+                                <div className="flex flex-col items-start ml-2">
+                                    <p className="lg:text-lg text-base font-semibold">{arrive.name}</p>
+                                    <span className="flex space-x-4">
+                                        <Star size={16} fill="#FFC633" strokeWidth={0.2} />
+                                        <p>{arrive.rate}/5.0</p>
+                                    </span>
+                                    <p className="text-xl font-semibold">${arrive.price}</p>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </section>
