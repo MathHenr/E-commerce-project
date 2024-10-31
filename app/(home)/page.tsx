@@ -1,9 +1,10 @@
 import Image from "next/image"
-import { Star } from "lucide-react"
+
 
 import { cn } from "@/lib/utils"
 import { Title } from "@/components/title"
 import { Button } from "@/components/ui/button"
+import { StarRating } from "@/components/star-rating"
 
 const brands = [
     {
@@ -110,11 +111,11 @@ export default function Page () {
                                 className="flex flex-col items-center w-full"
                             >
                                 <div className="lg:size-[248px] size-[224px] rounded-xl shadow-sm transition-shadow delay-100 hover:shadow-md bg-white" />
-                                <div className="flex flex-col items-start ml-2">
+                                <div className="flex flex-col items-start justify-start ml-2">
                                     <p className="lg:text-lg text-base font-semibold">{arrive.name}</p>
-                                    <span className="flex space-x-4">
-                                        <Star size={16} fill="#FFC633" strokeWidth={0.2} />
-                                        <p>{arrive.rate}/5.0</p>
+                                    <span className="flex items-center space-x-4">
+                                        <StarRating rating={arrive.rate} />
+                                        <p className="text-sm">{arrive.rate}/5</p>
                                     </span>
                                     <p className="text-xl font-semibold">${arrive.price}</p>
                                 </div>
