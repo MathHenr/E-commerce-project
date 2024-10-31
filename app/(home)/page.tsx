@@ -1,10 +1,11 @@
 import Image from "next/image"
 
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Title } from "@/components/title"
 import { Button } from "@/components/ui/button"
-import { StarRating } from "@/components/star-rating"
+import { ProductItem } from "@/components/product-item"
 
 const brands = [
     {
@@ -63,9 +64,7 @@ export default function Page () {
                     <p className="lg:text-sm text-xs lg:w-full w-2/3 text-slate-600/90">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima beatae eveniet praesentium magni blanditiis eaque laborum repellat vel qui! Reprehenderit magni suscipit
                     </p>
-                    <Button
-                        className="h-10 lg:max-w-[210px] w-2/3 rounded-full hover:shadow-sm focus:shadow-md"
-                    >
+                    <Button>
                         Shop Now
                     </Button>
                     <div className="lg:w-full w-2/3 flex justify-between">
@@ -87,6 +86,7 @@ export default function Page () {
                     <Image className="lg:absolute xl:-top-4 lg:top-32 xl:max-w-[680px] max-w-[480px]" width={680} height={680} src="/model_1.png" alt="Modelos" />
                 </div>
             </div>
+
             <div className="min-h-[122px] w-full bg-slate-900 xl:mt-32 lg:mt-12 -mt-4 text-slate-300 flex items-center justify-evenly overflow-hidden">
                 {brands.map((brand) => (
                     <Image
@@ -99,30 +99,32 @@ export default function Page () {
                     />
                 ))}
             </div>
-            <div className="max-w-screen-2xl mx-auto w-full overflow-hidden">
+            <div className="max-w-screen-2xl mx-auto w-full overflow-hidden animate-appear">
                 <section className="min-h-screen w-full flex flex-col items-center px-4 py-2 pt-20">
                     <Title>
                         NEW ARRIVALS
                     </Title>
-                    <div className="w-full min-h-[420px] lg:py-4 py-0 flex items-center justify-around space-x-4">
+                    <div className="w-full min-h-[420px] py-4 mt-10 flex max-lg:flex-col items-center justify-around">
                         {arrivals.map((arrive) => (
-                            <div
+                            <ProductItem 
                                 key={arrive.name}
-                                className="flex flex-col items-center w-full"
-                            >
-                                <div className="lg:size-[248px] size-[224px] rounded-xl shadow-sm transition-shadow delay-100 hover:shadow-md bg-white" />
-                                <div className="flex flex-col items-start justify-start ml-2">
-                                    <p className="lg:text-lg text-base font-semibold">{arrive.name}</p>
-                                    <span className="flex items-center space-x-4">
-                                        <StarRating rating={arrive.rate} />
-                                        <p className="text-sm">{arrive.rate}/5</p>
-                                    </span>
-                                    <p className="text-xl font-semibold">${arrive.price}</p>
-                                </div>
-                            </div>
+                                name={arrive.name}
+                                price={arrive.price}
+                                rate={arrive.rate}
+                            />
                         ))}
                     </div>
+
+                    <Link 
+                        href="/shop" 
+                        className="w-full flex justify-center items-center mt-10"
+                    >
+                            <Button className="bg-white/35 border-2 text-slate-900 hover:text-slate-200">
+                                View More...
+                            </Button>
+                    </Link>
                 </section>
+                <div className="min-h-screen"></div>
             </div>
             
         </div>

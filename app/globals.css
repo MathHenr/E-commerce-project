@@ -66,6 +66,23 @@ body {
   .svg {
     filter: invert(100%) sepia(3%) saturate(2%) hue-rotate(153deg) brightness(112%) contrast(100%);
   }
+
+  @keyframes appear {
+    from {
+      opacity: 0.5;
+      scale: 0.7;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  .animate-appear {
+    animation: appear ease-out;
+    animation-timeline: view();
+    animation-range: entry 10% ;
+  }
 }
 
 @layer base {

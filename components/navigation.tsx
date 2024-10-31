@@ -98,7 +98,7 @@ export const Navigation = () => {
                                 <Button
                                     key={route.href}
                                     variant={route.href === pathname ? "secondary" : "ghost"}
-                                    className="bg-muted-foreground text-slate-200 focus:shadow-md hover:bg-muted-foreground/80 font-semibold"
+                                    className="bg-muted-foreground w-full rounded-md text-slate-200 focus:shadow-md hover:bg-muted-foreground/80 font-semibold"
                                     onClick={() => onClick(route.href)}
                                 >
                                     {route.label}
