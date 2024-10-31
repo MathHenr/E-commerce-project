@@ -55,7 +55,7 @@ const arrivals = [
 
 export default function Page () {
     return (
-        <div>
+        <>
             <div className="max-w-screen-2xl mx-auto min-h-[620px] lg:flex items-end justify-between relative">
                 <div className="flex flex-col lg:items-start items-center justify-center gap-y-8 lg:max-w-[600px] w-full p-4">
                     <Title>
@@ -99,8 +99,8 @@ export default function Page () {
                     />
                 ))}
             </div>
-            <div className="max-w-screen-2xl mx-auto w-full overflow-hidden animate-appear">
-                <section className="min-h-screen w-full flex flex-col items-center px-4 py-2 pt-20">
+            <div className="max-w-screen-2xl mx-auto w-full overflow-hidden">
+                <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500 ">
                     <Title>
                         NEW ARRIVALS
                     </Title>
@@ -117,16 +117,41 @@ export default function Page () {
 
                     <Link 
                         href="/shop" 
-                        className="w-full flex justify-center items-center mt-10"
+                        className="w-full flex justify-center items-center mt-10 my-12"
                     >
                             <Button className="bg-white/35 border-2 text-slate-900 hover:text-slate-200">
                                 View More...
                             </Button>
                     </Link>
                 </section>
-                <div className="min-h-screen"></div>
+                <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500">
+                    <div className="w-full flex items-center justify-center">
+                        <Title>
+                            TOP SELLING
+                        </Title>
+                    </div>
+                    <div className="w-full min-h-[420px] py-4 mt-10 flex max-lg:flex-col items-center justify-around">
+                        {arrivals.map((arrive) => (
+                            <ProductItem 
+                                key={arrive.name}
+                                name={arrive.name}
+                                price={arrive.price}
+                                rate={arrive.rate}
+                            />
+                        ))}
+                    </div>
+
+                    <Link 
+                        href="/shop" 
+                        className="w-full flex justify-center items-center mt-10 my-12"
+                    >
+                            <Button className="bg-white/35 border-2 text-slate-900 hover:text-slate-200">
+                                View More...
+                            </Button>
+                    </Link>
+                </section>
             </div>
             
-        </div>
+        </>
     )
 }
