@@ -139,7 +139,13 @@ export const Footer = () => {
             </div>
             <div className="max-w-screen-2xl mx-auto flex justify-between py-2">
                 <span className="text-sm w-1/2 text-slate-600">
-                    All Rights Reserverd to brands and templates based on This,
+                    All Rights Reserverd to brands and templates based on 
+                    <Link 
+                        href="https://www.figma.com/community/file/1273571982885059508/e-commerce-website-template-freebie"
+                        target="_blank"
+                        className="hover:underline"
+                    > Hamza Naeem </Link> 
+                    template.
                 </span>
                 <span className="flex space-x-2">
                     <p className="bg-slate-100 rounded-sm flex items-center">

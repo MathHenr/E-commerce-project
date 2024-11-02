@@ -266,9 +266,9 @@ export const Navigation = () => {
 
                     <div className="w-full grid grid-cols-1 lg:grid-cols-3 items-center justify-end">
                         <form action="" className="col-span-2 lg:flex hidden justify-end">
-                            <div className="w-2/3 flex items-center justify-center bg-white rounded-3xl">
+                            <div className="w-2/3 flex items-center justify-center bg-default rounded-3xl border border-slate-800">
                                 <Input
-                                    className="w-full rounded-3xl p-4 border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-900 placeholder:text-slate-500 tracking-wide "
+                                    className="w-full rounded-3xl p-4 border-none bg-default focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-900 placeholder:text-slate-500 tracking-wide "
                                     placeholder="Search for products..."
                                 />
                                 <Search 
