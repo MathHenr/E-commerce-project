@@ -67,21 +67,19 @@ body {
     filter: invert(100%) sepia(3%) saturate(2%) hue-rotate(153deg) brightness(112%) contrast(100%);
   }
 
-  @keyframes appear {
+  @keyframes translateX {
     from {
-      opacity: 0.5;
-      scale: 0.7;
+      transform: translateX(-300px);
     }
     to {
-      opacity: 1;
-      scale: 1;
+      transform: translateX(0);
     }
   }
 
-  .animate-appear {
-    animation: appear ease-out;
+  .appear {
+    animation: translateX ease-in;
     animation-timeline: view();
-    animation-range: entry 10% ;
+    animation-range: entry 0% cover 25% ;
   }
 }
 

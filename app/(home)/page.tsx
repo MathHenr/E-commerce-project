@@ -108,9 +108,9 @@ export default function Page () {
                 ))}
             </div>
             <div className="max-w-screen-2xl mx-auto w-full overflow-hidden">
-                <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500 ">
+                <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500">
                     <h1
-                        className="xl:text-8xl lg:text-7xl text-5xl lg:w-full w-2/3 xl:font-bold font-extrabold font-fantasy text-start"
+                        className="translateX xl:text-8xl lg:text-7xl text-5xl lg:w-full w-2/3 xl:font-bold font-extrabold font-fantasy text-start"
                     >
                         NEW ARRIVALS
                     </h1>
