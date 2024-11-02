@@ -127,9 +127,9 @@ export default function Page () {
 
                     <Link 
                         href="/shop" 
-                        className="w-full flex justify-center items-center mt-10 my-12"
+                        className="flex justify-center items-center mt-10 my-12"
                     >
-                            <Button className="bg-white/35 border-2 text-slate-900 hover:text-slate-200">
+                            <Button className="bg-white/35 w-full border-2 text-slate-900 hover:text-slate-200">
                                 View More...
                             </Button>
                     </Link>
@@ -155,11 +155,11 @@ export default function Page () {
 
                     <Link 
                         href="/shop" 
-                        className="w-full flex justify-center items-center mt-10 my-12"
+                        className="flex justify-center items-center mt-10 my-12"
                     >
-                            <Button className="bg-white/35 border-2 text-slate-900 hover:text-slate-200">
-                                View More...
-                            </Button>
+                        <Button className="bg-white/35 w-full border-2 text-slate-900 hover:text-slate-200">
+                            View More...
+                        </Button>
                     </Link>
                 </section>
             </div>

@@ -125,7 +125,7 @@ export const Navigation = () => {
     }
     
     return (
-        <div className="bg-default">
+        <div className="bg-white shadow-md">
             <div className="max-w-screen-2xl mx-auto px-4 py-2 flex space-x-2">
                     <Image
                         className="w-56 lg:w-[200px]"
