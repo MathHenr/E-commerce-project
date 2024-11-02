@@ -72,15 +72,21 @@ export default function Page () {
                     <div className="lg:w-full w-2/3 flex justify-between">
                         <span className="xl:text-4xl lg:text-3xl text-2xl font-normal">
                             200+
-                            <p className="text-justify lg:text-sm text-xs text-slate-600/90 font-light">International Brands</p>
+                            <p className="text-justify lg:text-sm text-xs text-slate-600/90 font-light">
+                                International Brands
+                            </p>
                         </span>
                         <span className="xl:text-4xl lg:text-3xl text-2xl font-normal">
                             2,000+
-                            <p className="text-justify lg:text-sm text-xs text-slate-600/90 font-light">High-Quality Products</p>
+                            <p className="text-justify lg:text-sm text-xs text-slate-600/90 font-light">
+                                High-Quality Products
+                            </p>
                         </span>
                         <span className="xl:text-4xl lg:text-3xl text-2xl font-normal">
                             30,000+
-                            <p className="text-justifylg:text-sm text-xs text-slate-600/90 font-light">Happy Costumers</p>
+                            <p className="text-justifylg:text-sm text-xs text-slate-600/90 font-light">
+                                Happy Costumers
+                            </p>
                         </span>
                     </div>
                 </div>
@@ -157,7 +163,6 @@ export default function Page () {
                     </Link>
                 </section>
             </div>
-            
         </>
     )
 }

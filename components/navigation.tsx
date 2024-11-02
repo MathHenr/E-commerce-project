@@ -145,7 +145,7 @@ export const Navigation = () => {
                                         </NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <div className="grid gap-3 p-4 lg:w-[400px] lg:grid-cols-[.75fr_1fr]">
-                                                <span className="row-span-3 text-slate-800">
+                                                <div className="row-span-3 text-slate-800">
                                                     <NavigationMenuLink asChild>
                                                         <Link 
                                                             className="flex h-full w-full flex-col gap-2 justify-start rounded-md bg-gradient-to-t from-muted to-muted/80 p-4 no-underline outline-none focus:shadow-md"
@@ -155,10 +155,12 @@ export const Navigation = () => {
                                                                 <Shirt size={20}/>
                                                                 <h1>Formal</h1>
                                                             </div>
-                                                            <p className="font-base text-sm text-slate-800/60">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ducimus totam, perferendis iusto repudiandae minus quod velit?</p>
+                                                            <p className="font-base text-sm text-slate-800/60">
+                                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ducimus totam, perferendis iusto repudiandae minus quod velit?
+                                                            </p>
                                                         </Link>
                                                     </NavigationMenuLink>
-                                                </span>
+                                                </div>
                                                 <Link 
                                                     className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none"
                                                     href="/"
@@ -219,7 +221,7 @@ export const Navigation = () => {
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
-                                                <span className="col-span-2 text-slate-800">
+                                                <div className="col-span-2 text-slate-800">
                                                     <NavigationMenuLink asChild>
                                                         <Link 
                                                             className="flex h-full w-full flex-col gap-2 justify-start rounded-md bg-gradient-to-t from-muted to-muted/80 p-4 no-underline outline-none focus:shadow-md"
@@ -229,32 +231,34 @@ export const Navigation = () => {
                                                                 <Shirt size={20}/>
                                                                 <h1>Formal</h1>
                                                             </div>
-                                                            <p className="font-base text-sm text-slate-800/60">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ducimus totam, perferendis iusto repudiandae minus quod velit?</p>
+                                                            <p className="font-base text-sm text-slate-800/60">
+                                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est ducimus totam, perferendis iusto repudiandae minus quod velit?
+                                                            </p>
                                                         </Link>
                                                     </NavigationMenuLink>
-                                                </span>
+                                                </div>
                                             </div>
                                         </NavigationMenuContent>
                                     </NavigationMenuItem>
                                     <ul className="flex gap-0.5 text-sm">
-                                        <Button
-                                            className="rounded-md h-8 px-4 py-2 text-slate-900 bg-transparent hover:bg-accent/50"
+                                        <Link
+                                            href="/new-arrivals"
                                         >
-                                            <Link
-                                                href="/new-arrivals"
+                                            <Button
+                                                className="rounded-md h-8 px-4 py-2 text-slate-900 bg-transparent hover:bg-accent/50"
                                             >
                                                 New Arrivals
-                                            </Link>
-                                        </Button>
-                                        <Button
-                                            className="rounded-md h-8 px-4 py-2 text-slate-900 bg-transparent hover:bg-accent/50"
+                                            </Button>
+                                        </Link>
+                                        <Link
+                                            href="/brands"
                                         >
-                                            <Link
-                                                href="/brands"
+                                            <Button
+                                                className="rounded-md h-8 px-4 py-2 text-slate-900 bg-transparent hover:bg-accent/50"
                                             >
                                                 Brands
-                                            </Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
                                     </ul>
                                 </NavigationMenuList>
                         </NavigationMenu>
