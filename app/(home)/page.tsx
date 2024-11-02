@@ -3,7 +3,6 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
-import { Title } from "@/components/title"
 import { Button } from "@/components/ui/button"
 import { ProductItem } from "@/components/product-item"
 
@@ -58,9 +57,12 @@ export default function Page () {
         <>
             <div className="max-w-screen-2xl mx-auto min-h-[620px] lg:flex items-end justify-between relative">
                 <div className="flex flex-col lg:items-start items-center justify-center gap-y-8 lg:max-w-[600px] w-full p-4">
-                    <Title>
+                    <h1
+                        className="xl:text-8xl lg:text-7xl text-5xl lg:w-full w-2/3 xl:font-bold font-extrabold font-fantasy text-center"
+                    >
                         FIND CLOTHES THAT MATCHES YOUR STYLE
-                    </Title>
+                    </h1>
+
                     <p className="lg:text-sm text-xs lg:w-full w-2/3 text-slate-600/90">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima beatae eveniet praesentium magni blanditiis eaque laborum repellat vel qui! Reprehenderit magni suscipit
                     </p>
@@ -101,9 +103,11 @@ export default function Page () {
             </div>
             <div className="max-w-screen-2xl mx-auto w-full overflow-hidden">
                 <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500 ">
-                    <Title>
+                    <h1
+                        className="xl:text-8xl lg:text-7xl text-5xl lg:w-full w-2/3 xl:font-bold font-extrabold font-fantasy text-start"
+                    >
                         NEW ARRIVALS
-                    </Title>
+                    </h1>
                     <div className="w-full min-h-[420px] py-4 mt-10 flex max-lg:flex-col items-center justify-around">
                         {arrivals.map((arrive) => (
                             <ProductItem 
@@ -126,9 +130,11 @@ export default function Page () {
                 </section>
                 <section className="min-h-full w-full flex flex-col items-center px-4 py-2 pt-20 border-b border-slate-500">
                     <div className="w-full flex items-center justify-center">
-                        <Title>
+                        <h1
+                            className="xl:text-8xl lg:text-7xl text-5xl lg:w-full w-2/3 xl:font-bold font-extrabold font-fantasy text-end"
+                        >
                             TOP SELLING
-                        </Title>
+                        </h1>
                     </div>
                     <div className="w-full min-h-[420px] py-4 mt-10 flex max-lg:flex-col items-center justify-around">
                         {arrivals.map((arrive) => (
