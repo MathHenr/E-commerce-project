@@ -14,7 +14,7 @@ export const Review = ({
     review
 }: Review) => {
     return (
-        <div className="min-w-[398px] min-h-[198px] rounded-xl border border-slate-400/75 p-4 flex flex-col gap-1">
+        <div className="min-w-[398px] min-h-[198px] rounded-xl border border-slate-400/75 p-4 flex flex-col gap-1 transition-all ease-linear duration-75 shadow-sm hover:shadow-md">
             <span>
                 <StarRating name={name} rating={rate} />
             </span>
