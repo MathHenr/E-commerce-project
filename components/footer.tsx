@@ -57,7 +57,7 @@ export const Footer = () => {
                     </form>
                 </div>
             </div>
-            <div className="max-w-screen-2xl mx-auto grid grid-cols-2 max-md:gap-3 md:grid-cols-5 border-b border-slate-600 py-4">
+            <div className="max-w-screen-2xl mx-auto grid grid-cols-2 justify-items-stretch max-md:gap-3 md:grid-cols-5 border-b border-slate-600 py-4">
                 {/* footer component */}
                 <div className="max-md:col-span-2 flex flex-col pt-0.5 gap-4">
                     <Image height={130} width={130} src="/logo.svg" alt="Logo" />
@@ -66,16 +66,24 @@ export const Footer = () => {
                     </p>
                     <div className="w-full flex gap-3">
                         <span className="p-1.5 bg-slate-200 rounded-full hover:bg-slate-900 hover:cursor-pointer border-slate-900 group">
-                            <Linkedin size={16} className="group-hover:text-slate-200" />
+                            <Link target="_blank" href="https://www.linkedin.com/in/matheus-henrique-sobrinho-987831188/">
+                                <Linkedin size={16} className="group-hover:text-slate-200" />
+                            </Link>
                         </span>
                         <span className="p-1.5 bg-slate-200 rounded-full hover:bg-slate-900 hover:cursor-pointer border-slate-900 group">
-                            <Facebook size={16} className="group-hover:text-slate-200" />
+                            <Link href="#">
+                                <Facebook size={16} className="group-hover:text-slate-200" />
+                            </Link>
                         </span>
                         <span className="p-1.5 bg-slate-200 rounded-full hover:bg-slate-900 hover:cursor-pointer border-slate-900 group">
-                            <Instagram size={16} className="group-hover:text-slate-200" />
+                            <Link href="#">
+                                <Instagram size={16} className="group-hover:text-slate-200" />
+                            </Link>
                         </span>
                         <span className="p-1.5 bg-slate-200 rounded-full hover:bg-slate-900 hover:cursor-pointer border-slate-900 group">
-                            <Github size={16} className="group-hover:text-slate-200" />
+                            <Link target="_blank" href="https://github.com/MathHenr">
+                                <Github size={16} className="group-hover:text-slate-200" />
+                            </Link>
                         </span>
                     </div>
                 </div>
