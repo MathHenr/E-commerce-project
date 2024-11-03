@@ -20,8 +20,8 @@ export const ProductItem = ({
                 <p className="lg:text-lg text-base font-semibold">
                     {name}
                 </p>
-                <span className="flex items-center space-x-4">z
-                    <StarRating rating={rate} />
+                <span className="flex items-center space-x-4">
+                    <StarRating name={name} rating={rate} />
                     <p className="text-sm">
                         {rate}/5
                     </p>
