@@ -1,11 +1,28 @@
+"use client"
+
+import { ChangeEvent, FormEvent, useState } from "react"
+
 import Link from "next/link"
 import Image from "next/image"
 
 import { Facebook, Github, Instagram, Linkedin, Mail, } from "lucide-react"
 
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 
 export const Footer = () => {
+    const [email, setEmail] = useState<string>('');
+
+    function handleSubmit (event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        return email.length > 0 ? toast.success("Registration Success") : toast.error("Registration Failed")
+        // TODO: Register email to db
+    };
+
+    function handleEmail (event: ChangeEvent<HTMLInputElement>) {
+        return setEmail(event.target.value);
+    };
+    
     return (
         <div className="w-full px-4 py-2 bg-slate-500/25 space-y-8 last-of-type:space-y-0">
             <div className="max-w-screen-2xl mx-auto grid md:grid-cols-2 max-md:grid-rows-2 items-center md:justify-evenly px-16 py-9 md:-mt-[90px] -mt-[128px] bg-slate-900 rounded-2xl shadow-sm">
@@ -14,30 +31,34 @@ export const Footer = () => {
                 >
                     STAY UPTO DATE ABOUT OUR LATEST OFFERS
                 </h1>
+                {/* Form Newsletter */}
                 <div className="md:col-span-1 max-md:row-span-1 max-md:mt-2 items-center justify-end">
-                    <form className="flex flex-col w-full md:items-end items-center gap-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col w-full md:items-end items-center gap-4">
                         <label
+                            htmlFor="email"
                             className="relative flex items-center"
                         >
                             <Mail 
                                 className="absolute right-0 mr-4 text-slate-500 size-6"
                             />
                             <input 
-                                type="text" 
+                                type="email" 
                                 className="md:w-[340px] max-md:w-[298px] py-2 px-4 pr-12 rounded-full focus:outline-none focus-visible:ring-offset-0 focus:ring-0" 
                                 placeholder="Enter your email adress"
+                                onChange={handleEmail}
                             />
                         </label>
                         <Button
+                            
                             className="md:min-w-[340px] min-w-[298px] w-min bg-white text-slate-800 p-3 rounded-full text-base font-semibold font-poppins hover:text-slate-300 hover:bg-slate-700"
                         >
                             Subscribe to Newsletter
                         </Button>
                     </form>
                 </div>
-
             </div>
             <div className="max-w-screen-2xl mx-auto grid grid-cols-2 max-md:gap-3 md:grid-cols-5 border-b border-slate-600 py-4">
+                {/* footer component */}
                 <div className="max-md:col-span-2 flex flex-col pt-0.5 gap-4">
                     <Image height={130} width={130} src="/logo.svg" alt="Logo" />
                     <p className="text-xs w-3/4 text-slate-600">
@@ -58,6 +79,7 @@ export const Footer = () => {
                         </span>
                     </div>
                 </div>
+                {/* company */}
                 <div className="flex flex-col">
                     <h2 className="font-poppins text-sm">
                         COMPANY
@@ -77,6 +99,7 @@ export const Footer = () => {
                         </Link>
                     </span>
                 </div>
+                {/* help */}
                 <div className="flex flex-col">
                     <h2 className="font-poppins text-sm">
                         HELP
@@ -96,6 +119,7 @@ export const Footer = () => {
                         </Link>
                     </span>
                 </div>
+                {/* FAQ */}
                 <div className="flex flex-col">
                     <h2 className="font-poppins text-sm">
                         FAQ
@@ -110,13 +134,13 @@ export const Footer = () => {
                         <Link className="hover:underline" href="/">
                             Orders
 
-                        </
-                    Link>
+                        </Link>
                         <Link className="hover:underline" href="/">
                             Payments
                         </Link>
                     </span>
                 </div>
+                {/* resources */}
                 <div className="flex flex-col">
                     <h2 className="font-poppins text-sm">
                         RESOURCES
@@ -137,6 +161,7 @@ export const Footer = () => {
                     </span>
                 </div>
             </div>
+            {/* Rights session */}
             <div className="max-w-screen-2xl mx-auto flex justify-between py-2">
                 <span className="text-sm w-1/2 text-slate-600">
                     All Rights Reserverd to brands and templates based on 

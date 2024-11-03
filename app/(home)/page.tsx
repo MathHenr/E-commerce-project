@@ -113,18 +113,18 @@ const reviews = [
 ]
 
 export default function Page () {
-    const [reviewList, setReviewList] = useState(0)
+    const [reviewList, setReviewList] = useState<number>(0)
     const isMobile = useMedia("(max-width: 1024px)", false)
     
     
-    const handleLeftArrow = (): void => {
+    function handleLeftArrow (): void {
         return isMobile 
             ? setReviewList((prevMargin) => 
                 prevMargin === 0 ? (prevMargin = (reviews.length - 1) * 388) : (prevMargin - 300) < 0 ? prevMargin = 0 : prevMargin - 300)
             : setReviewList((prevMargin) => 
                 prevMargin === 0 ? (prevMargin = (reviews.length - 1) * 288) : (prevMargin - 600) < 0 ? prevMargin = 0 : prevMargin - 600)
     }
-    const handleRightArrow = (): void => {
+    function handleRightArrow (): void {
         return isMobile
             ? setReviewList((nextMargin) => 
                 nextMargin === ((reviews.length - 1) * 388) ? nextMargin = 0 : (nextMargin + 300) > (reviews.length - 1) * 388 ? nextMargin = (reviews.length - 1) * 388 : nextMargin + 300)
