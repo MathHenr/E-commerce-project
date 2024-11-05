@@ -182,13 +182,13 @@ export const Footer = () => {
                 </span>
                 <span className="flex space-x-2">
                     <p className="bg-slate-100 rounded-sm flex items-center">
-                        <Image height={48} width={48} src="/mastercard.svg" alt="MasterCard"/>
+                        <Image height={48} width={48} src="/card-brands/mastercard.svg" alt="MasterCard"/>
                     </p>
                     <p className="bg-slate-100 rounded-sm flex items-center">
-                        <Image height={48} width={48} src="/visa.svg" alt="MasterCard"/>
+                        <Image height={48} width={48} src="/card-brands/visa.svg" alt="MasterCard"/>
                     </p>
                     <p className="bg-slate-100 rounded-sm flex items-center">
-                        <Image height={48} width={48} src="/paypal.svg" alt="MasterCard"/>
+                        <Image height={48} width={48} src="/card-brands/paypal.svg" alt="MasterCard"/>
                     </p>
                 </span>
             </div>
