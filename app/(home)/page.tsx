@@ -15,23 +15,23 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const brands = [
     {
-        href: "/gucci.svg",
+        href: "/brands/gucci.svg",
         label: "Gucci",
     },
     {
-        href: "/versace.svg",
+        href: "/brands/versace.svg",
         label: "Versace",
     },
     {
-        href: "/nike.svg",
+        href: "/brands/nike.svg",
         label: "Nike",
     },
     {
-        href: "/prada.svg",
+        href: "/brands/prada.svg",
         label: "Prada",
     },
     {
-        href: "/zara.svg",
+        href: "/brands/zara.svg",
         label: "Zara",
     },
 ]

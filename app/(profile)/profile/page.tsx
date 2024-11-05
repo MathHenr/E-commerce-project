@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { getServerSession } from "next-auth"
 
 export default async function Page () {
@@ -13,7 +15,10 @@ export default async function Page () {
     
     return (
         <div>
-            Profile Page {session.user?.name}
+            <p>
+                Profile Page {session.user?.name}
+            </p>
+            <Image width={120} height={120} src={session.user?.image!} alt="User" />
         </div>
     )
 }
