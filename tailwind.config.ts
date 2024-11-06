@@ -8,10 +8,11 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-	fontFamily: {
-		'fantasy': 'fantasy',
-	},
-  	extend: {
+	  extend: {
+		fontFamily: {
+			  'fantasy': ['Fantasy'],
+			  'poppins': ['Poppins']
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
