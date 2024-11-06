@@ -1,7 +1,7 @@
 export default function Page () {
     return (
         <p>
-            Login
+            Sing-up
         </p>
     )
 }

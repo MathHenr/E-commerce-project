@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth"
 
 export default async function Page () {
     const session = await getServerSession()
-
+    
     if (!session) {
         return (
             <div>
@@ -18,7 +18,7 @@ export default async function Page () {
             <p>
                 Profile Page {session.user?.name}
             </p>
-            <Image width={120} height={120} src={session.user?.image!} alt="User" />
+            <Image width={120} height={120} src={session.user?.image ? session.user.image : '/unknown-user.svg'} alt="User" />
         </div>
     )
 }
