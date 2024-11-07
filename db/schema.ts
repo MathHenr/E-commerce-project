@@ -26,6 +26,7 @@ export const addressTable = pgTable("address", {
     state: varchar({ length: 255 }).notNull(),
     city: varchar({ length: 255 }).notNull(),
     neighborhood: varchar({ length: 255 }).notNull(),
+    street: varchar({ length: 255 }).notNull(),
     number: integer().notNull(),
 })
 

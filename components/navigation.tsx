@@ -7,7 +7,7 @@ import { useState } from "react"
 import { useMedia } from "react-use"
 import { useRouter, usePathname } from "next/navigation"
 
-import { Menu, Search, Shirt, UserCircle2 } from "lucide-react"
+import { LogOut, Menu, Search, Settings, Shirt, UserCircle2 } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -66,7 +66,7 @@ export const Navigation = () => {
     
     if (isMobile) {
        return (
-        <div className="bg-default flex justify-between px-4 py-2">
+        <div className="bg-default flex justify-between px-4 py-2 font-poppins">
             <div className="flex gap-4">
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger>
@@ -98,7 +98,7 @@ export const Navigation = () => {
                                 <Button
                                     key={route.href}
                                     variant={route.href === pathname ? "secondary" : "ghost"}
-                                    className="bg-muted-foreground w-full rounded-md text-slate-200 focus:shadow-md hover:bg-muted-foreground/80 font-semibold"
+                                    className="bg-muted-foreground w-full rounded-md text-slate-200 focus:shadow-md hover:bg-muted-foreground/80 font-normal font-poppins"
                                     onClick={() => onClick(route.href)}
                                 >
                                     {route.label}
@@ -112,12 +112,22 @@ export const Navigation = () => {
                 <DropdownMenuTrigger>
                     <UserCircle2 className="bg-transparent hover:cursor-pointer rounded-md size-5"/>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="px-4 py-2 w-full">
-                    <DropdownMenuLabel>My account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>item1</DropdownMenuItem>
-                    <DropdownMenuItem>item2</DropdownMenuItem>
-                    <DropdownMenuItem>item3</DropdownMenuItem>
+                <DropdownMenuContent className="p-2 mr-12 size-[210px] flex flex-col bg-slate-100">
+                    <DropdownMenuLabel>
+                        My account
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-slate-600/45" />
+                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                        <Settings />
+                        My Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                        Item 2
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                        <LogOut />
+                        Sign Out
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
@@ -125,7 +135,7 @@ export const Navigation = () => {
     }
     
     return (
-        <div className="bg-white shadow-md">
+        <div className="bg-white shadow-md font-poppins">
             <div className="max-w-screen-2xl mx-auto px-4 py-2 flex space-x-2">
                     <Image
                         className="w-56 lg:w-[200px]"
@@ -162,21 +172,21 @@ export const Navigation = () => {
                                                     </NavigationMenuLink>
                                                 </div>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none"
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm"
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none"
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm"
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none "
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm "
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
@@ -194,28 +204,28 @@ export const Navigation = () => {
                                         <NavigationMenuContent>
                                             <div className="grid gap-3 p-4 lg:w-[400px] lg:grid-cols-2">
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none"
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm"
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none"
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm"
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none "
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm "
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
                                                     teste
                                                 </Link>
                                                 <Link 
-                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none "
+                                                    className="bg-gradient-to-l from-slate-300 to-slate-200 p-4 rounded-md flex gap-3 items-center hover:shadow-md transition-transform ease-in delay-75 focus:shadow-md outline-none text-sm "
                                                     href="/"
                                                 >
                                                     <Shirt size={20}/>
@@ -281,12 +291,22 @@ export const Navigation = () => {
                                 <DropdownMenuTrigger>
                                     <UserCircle2 className="bg-transparent hover:cursor-pointer rounded-md size-5"/>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuLabel>My account</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>item1</DropdownMenuItem>
-                                    <DropdownMenuItem>item2</DropdownMenuItem>
-                                    <DropdownMenuItem>item3</DropdownMenuItem>
+                                <DropdownMenuContent className="p-2 mr-12 size-[210px] flex flex-col bg-slate-100">
+                                    <DropdownMenuLabel>
+                                        My account
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator className="bg-slate-600/45" />
+                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                                        <Settings />
+                                        My Profile
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                                        Item 2
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
+                                        <LogOut />
+                                        Sign Out
+                                    </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
