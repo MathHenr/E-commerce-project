@@ -2,7 +2,7 @@
 
 import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-postgres"
-import { eq, or } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 
 import { usersTable } from "@/db/schema"
 
