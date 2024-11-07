@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 import { Validation } from "./actions"
 import { createUser } from "@/feature/users/create-user"
@@ -16,6 +17,7 @@ export default function Page () {
     const [cpf, setCpf] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const router = useRouter()
 
     const fields = [
         {
@@ -43,18 +45,26 @@ export default function Page () {
     function verifyPasswords () {
         return password === confirmPassword
     }
+    function redirectUser (message: string) {
+        toast.success(message) 
+        router.push("/profile")
+    }
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
         event.preventDefault()
         fields.map((field) => {
             if (field?.var.length === 0) {
-                toast.error(`Please fill out the ${field.name} field`)
+                toast.error(`Please fill out the ${field.name} field`, {
+                    duration: 5000
+                })
                 throw new Error("Empty fields")
             }
         })
         // verify if passwords match
         if (!verifyPasswords()) {
-            toast.error("Passwords don't match, please fix it")
+            toast.error("Passwords don't match, please fix it", {
+                duration: 5000,
+            })
             return null
         }
         // validating user's data
@@ -73,7 +83,11 @@ export default function Page () {
         }
         // Create user in DB
         const results = await createUser(data.schema)
-        results.ok ? toast.success(results.message) : toast.error(results.message)
+        results.ok 
+            ? redirectUser(results.message)
+            : toast.error(results.message, {
+                duration: 5000,
+            })
         return
     }
     
