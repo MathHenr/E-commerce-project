@@ -8,6 +8,13 @@
       "when": 1730916343985,
       "tag": "0000_curious_invaders",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1730980780522,
+      "tag": "0001_tiresome_dragon_lord",
+      "breakpoints": true
     }
   ]
 }
