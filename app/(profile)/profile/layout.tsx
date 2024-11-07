@@ -1,5 +1,5 @@
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
+import { Nav } from "@/app/(profile)/components/nav";
+import { Sidebar } from "../components/sidebar";
 
 type Props = {
     children: React.ReactNode;
@@ -8,11 +8,9 @@ type Props = {
 export default function HomeLayout ({ children }: Props) {
     return (
         <>
-            <Navigation />
-            <main className="min-h-screen mb-32">
+            <main>
                 { children }
             </main>
-            <Footer />
         </>
     )
 }

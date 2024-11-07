@@ -7,8 +7,9 @@ import { useState } from "react"
 import { useMedia } from "react-use"
 import { useRouter, usePathname } from "next/navigation"
 
-import { LogOut, Menu, Search, Settings, Shirt, UserCircle2 } from "lucide-react"
+import { Menu, Search, Shirt } from "lucide-react"
 
+import { UserIcon } from "@/components/user-icon"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -24,14 +25,7 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-    DropdownMenuSeparator
-} from "@/components/ui/dropdown-menu"
+
 
 const routes = [
     {
@@ -108,28 +102,7 @@ export const Navigation = () => {
                     </SheetContent>
                 </Sheet>
             </div>
-            <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <UserCircle2 className="bg-transparent hover:cursor-pointer rounded-md size-5"/>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="p-2 mr-12 size-[210px] flex flex-col bg-slate-100">
-                    <DropdownMenuLabel>
-                        My account
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-slate-600/45" />
-                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                        <Settings />
-                        My Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                        Item 2
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                        <LogOut />
-                        Sign Out
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <UserIcon />
         </div>
        )
     }
@@ -287,28 +260,7 @@ export const Navigation = () => {
                             </div>
                         </form>
                         <div className="col-span-1 flex items-center justify-end">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <UserCircle2 className="bg-transparent hover:cursor-pointer rounded-md size-5"/>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="p-2 mr-12 size-[210px] flex flex-col bg-slate-100">
-                                    <DropdownMenuLabel>
-                                        My account
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator className="bg-slate-600/45" />
-                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                                        <Settings />
-                                        My Profile
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                                        Item 2
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                                        <LogOut />
-                                        Sign Out
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            <UserIcon />
                         </div>
                     </div>
             </div>
