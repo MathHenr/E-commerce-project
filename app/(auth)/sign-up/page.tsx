@@ -3,17 +3,19 @@
 import { FormEvent, useState } from "react"
 import Image from "next/image"
 
+import { Validation } from "./actions"
 import { createUser } from "@/feature/users/create-user"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 
 export default function Page () {
-    const [firstName, setFirtName] = useState<string>('')
-    const [lastName, setLastName] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
-    const [cpf, setCpf] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [firstName, setFirtName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     const fields = [
         {
@@ -37,10 +39,12 @@ export default function Page () {
             var: password,
         },
     ] 
-
-    const errors = []
     
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    function verifyPasswords () {
+        return password === confirmPassword
+    }
+    
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
         event.preventDefault()
         fields.map((field) => {
             if (field?.var.length === 0) {
@@ -48,13 +52,27 @@ export default function Page () {
                 throw new Error("Empty fields")
             }
         })
-        const results = await createUser({
-            firstName, 
-            lastName, 
+        // verify if passwords match
+        if (!verifyPasswords()) {
+            toast.error("Passwords don't match, please fix it")
+            return null
+        }
+        // validating user's data
+        const user = new Validation(
+            firstName,
+            lastName,
             email,
             cpf,
-            password,
-        })
+            password
+        )
+        const data = user.validate()
+        // render a error message on screen if exist one
+        if (data.status === "Erro") {
+            toast.error(data.error_message)
+            return null
+        }
+        // Create user in DB
+        const results = await createUser(data.schema)
         results.ok ? toast.success(results.message) : toast.error(results.message)
         return
     }
@@ -126,6 +144,7 @@ export default function Page () {
                                 type="password"
                                 placeholder="Confirm your secret key"
                                 className="w-full leading-1 rounded-none border-none bg-transparent tracking-wider text-base font-normal outline-none placeholder:text-xs placeholder:font-semibold focus-visible:ring-offset-0 focus-visible:ring-0"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             <div className="w-full h-px bg-slate-900" />
                         </label>

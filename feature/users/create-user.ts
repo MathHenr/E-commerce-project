@@ -2,9 +2,9 @@
 
 import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-postgres"
+import { eq, or } from "drizzle-orm"
 
 import { usersTable } from "@/db/schema"
-import { eq } from "drizzle-orm"
 
 const db = drizzle(process.env.DATABASE_URL!)
 
@@ -21,6 +21,19 @@ export const createUser = async (user: NewUser): Promise<Response> => {
         message: "",
     }
     try {
+        const cpfAlreadyExist = await db
+            .select().from(usersTable).where(
+                eq(usersTable.cpf, user.cpf)
+            )
+        
+        if (cpfAlreadyExist.length > 0) {
+            status = {
+                ok: false,
+                message: "Cpf already exist in database!"
+            }
+            return status
+        }
+
         await db.insert(usersTable).values(user)
         
         status = {
@@ -30,7 +43,7 @@ export const createUser = async (user: NewUser): Promise<Response> => {
     } catch (error) {
         status = {
             ok: false,
-            message: "User already exist!"
+            message: "Email already exist in database!"
         } 
     }
     return status
