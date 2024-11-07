@@ -1,10 +1,20 @@
+"use client"
+
+import { useState } from "react";
+import { Mail } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "../components/nav";
 import { Sidebar } from "../components/sidebar";
-import { Mail } from "lucide-react";
 
-export default async function Page () {
+export default function Page () {
+    const [disabled, setDisabled] = useState(true)
+
+    function handleEdit () {
+        disabled ? setDisabled(false) : setDisabled(true)
+    }
+    
     return (
         <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-12">
             <div className="hidden md:grid col-span-1">
@@ -25,6 +35,7 @@ export default async function Page () {
                             </div>
                             <Button
                                 className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                onClick={() => handleEdit()}
                             >
                                 Edit 
                             </Button>
@@ -37,10 +48,10 @@ export default async function Page () {
                                         First Name
                                     </p>
                                     <Input 
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
@@ -50,10 +61,10 @@ export default async function Page () {
                                         Last Name
                                     </p>
                                     <Input 
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
@@ -63,10 +74,10 @@ export default async function Page () {
                                         CPF
                                     </p>
                                     <Input 
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
@@ -79,10 +90,10 @@ export default async function Page () {
                                     </p>
                                     <Input
                                         type="password"
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
@@ -93,10 +104,10 @@ export default async function Page () {
                                     </p>
                                     <Input 
                                         type="password"
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
@@ -107,10 +118,10 @@ export default async function Page () {
                                     </p>
                                     <Input 
                                         type="password"
-                                        className="w-full bg-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0
+                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
-                                        disabled={true}
+                                        disabled={disabled}
                                         placeholder="Seu nome esta aqui"
                                     />
                                 </span>
