@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Mail, Pencil, Save } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
@@ -33,12 +33,23 @@ export default function Page () {
                                     Username
                                 </span>
                             </div>
-                            <Button
-                                className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
-                                onClick={() => handleEdit()}
-                            >
-                                Edit 
-                            </Button>
+                            {disabled ? (
+                                <Button
+                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    onClick={() => handleEdit()}
+                                >
+                                    <Pencil />
+                                    Edit
+                                </Button>
+                            ) : (
+                                <Button
+                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    onClick={() => handleEdit()}
+                                >
+                                    <Save />
+                                    Save changes
+                                </Button>
+                            )}
                         </div>
                         {/* profile form */}
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -141,6 +152,7 @@ export default function Page () {
                             <Button
                                 className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
                             >
+                                <Pencil />
                                 Edit email
                             </Button>
                         </slot>

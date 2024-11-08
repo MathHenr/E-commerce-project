@@ -1,8 +1,11 @@
 "use client"
 
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Mail, Pencil, Save } from "lucide-react";
 
+
+import { cn } from "@/lib/utils";
+import { Address, CEP } from "./actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
@@ -10,6 +13,33 @@ import { Sidebar } from "@/app/(profile)/components/sidebar";
 
 export default function Page () {
     const [disabled, setDisabled] = useState(true)
+    const [cep, setCep] = useState('')
+    const [error, setError] = useState('')
+    const [street, setStreet] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [neighborhood, setNeighborhood] = useState('')
+    const [number, setNumber] = useState(0)
+    
+    async function handleSearchCep () {
+        setError('')
+        const response = new CEP(cep)  
+        const data = await response.getCep()
+        typeof data === 'string'
+            ? setError(data)
+            : attributeData(data)
+        console.log(data, error)
+        return
+    }
+    
+    function attributeData (data: Address) {
+        setCep(data.cep)
+        setCity(data.city)
+        setNeighborhood(data.neighborhood)
+        setState(data.state)
+        setStreet(data.street)
+        return
+    }
 
     function handleEdit () {
         disabled ? setDisabled(false) : setDisabled(true)
@@ -33,19 +63,52 @@ export default function Page () {
                                     Username
                                 </span>
                             </div>
-                            <Button
-                                className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
-                                onClick={() => handleEdit()}
-                            >
-                                Edit 
-                            </Button>
+                            {disabled ? (
+                                <Button
+                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    onClick={() => handleEdit()}
+                                >
+                                    <Pencil />
+                                    Edit
+                                </Button>
+                            ) : (
+                                <Button
+                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    onClick={() => handleEdit()}
+                                >
+                                    <Save />
+                                    Save changes
+                                </Button>
+                            )}
                         </div>
                         {/* profile form */}
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="col-span-1 w-full flex flex-col gap-8">
                                 <span>
                                     <p>
-                                        First Name
+                                        CEP
+                                    </p>
+                                    <div className="flex gap-2">
+                                        <Input 
+                                            className={cn("w-full focus-visible:ring-0 focus-visible:ring-offset-0 text-black text-base",
+                                                error ? `placeholder:text-red-600 bg-red-300/55` : 'placeholder:text-black bg-slate-300'
+                                            )}
+                                            disabled={disabled}
+                                            placeholder={error ? error : "teste"}
+                                            onChange={(e) => setCep(e.target.value)}
+                                        />
+                                        <Button
+                                            className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                            onClick={() => handleSearchCep()}
+                                        >
+                                            Search CEP
+                                        </Button>
+                                    </div>
+                                </span>
+
+                                <span>
+                                    <p>
+                                        Street
                                     </p>
                                     <Input 
                                         className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
@@ -53,12 +116,14 @@ export default function Page () {
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
+                                        onChange={(e) => setStreet(e.target.value)}
+                                        value={street}
                                     />
                                 </span>
 
                                 <span>
                                     <p>
-                                        Last Name
+                                        City
                                     </p>
                                     <Input 
                                         className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
@@ -66,19 +131,8 @@ export default function Page () {
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
-                                    />
-                                </span>
-
-                                <span>
-                                    <p>
-                                        CPF
-                                    </p>
-                                    <Input 
-                                        className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                        placeholder:text-black 
-                                        text-black text-base"
-                                        disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        onChange={(e) => setCity(e.target.value)}
+                                        value={city}
                                     />
                                 </span>
                             </div>
@@ -86,43 +140,46 @@ export default function Page () {
                             <div className="col-span-1 w-full flex flex-col gap-8">
                                 <span>
                                     <p>
-                                        Password
+                                        State
                                     </p>
                                     <Input
-                                        type="password"
                                         className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
+                                        onChange={(e) => setState(e.target.value)}
+                                        value={state}
                                     />
                                 </span>
 
                                 <span>
                                     <p>
-                                        New Password
+                                        Neighborhood
                                     </p>
                                     <Input 
-                                        type="password"
                                         className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
+                                        onChange={(e) => setNeighborhood(e.target.value)}
+                                        value={neighborhood}
                                     />
                                 </span>
 
                                 <span>
                                     <p>
-                                        Confirm New Password
+                                        Number
                                     </p>
                                     <Input 
-                                        type="password"
                                         className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
+                                        onChange={(e) => setNumber(Number(e.target.value))}
+                                        value={number}
                                     />
                                 </span>
 
@@ -141,6 +198,7 @@ export default function Page () {
                             <Button
                                 className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
                             >
+                                <Pencil />
                                 Edit email
                             </Button>
                         </slot>

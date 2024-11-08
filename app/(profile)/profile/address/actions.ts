@@ -1,4 +1,4 @@
-interface Address {
+export interface Address {
     cep: string,
     state: string,
     city: string,
@@ -21,10 +21,9 @@ export class CEP {
     
     constructor(
         public readonly cep: string,
-        public readonly number: number,
     ){}
 
-    public async getCep () {
+    public async getCep (): Promise<Address|string> {
         const info = await this.getCepData()
         if (this.message.length > 0) {
             return this.message
@@ -76,5 +75,5 @@ export class CEP {
     }
 }
 
-const user = new CEP("13088136",1090)
+const user = new CEP("13088136")
 user.getCep()
