@@ -1,7 +1,7 @@
 import { genSaltSync, hashSync } from "bcrypt-ts"
 
-export interface User {
-    status: string,
+export interface UserData {
+    success: boolean | null,
     schema: {
         readonly firstName: string
         readonly lastName: string
@@ -13,8 +13,8 @@ export interface User {
 }
 
 export class Validation {
-    public readonly response: User = {
-        status: "",
+    public readonly response: UserData = {
+        success: null,
         schema: {
             firstName: "",
             lastName: "",
@@ -34,7 +34,7 @@ export class Validation {
     ) {
         this._cpf = this._cpf.replace(/\D/g,'')
         this.response = {
-            status: "Success",
+            success: true,
             schema: {
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -46,11 +46,11 @@ export class Validation {
         }
     }
 
-    public validate (): User {
+    public validate (): UserData {
         this.validateCpf() 
         this.hashPassword()
         
-        if (this.response.status === "Erro" || this.response.error_message.length > 0) {
+        if (this.response.success === false || this.response.error_message.length > 0) {
             return this.response
         }
         
@@ -95,7 +95,7 @@ export class Validation {
     }
     
     private setErrors (message: string) {
-        this.response.status = "Erro"
+        this.response.success = false
         this.response.error_message.push(message)
         return
     } 

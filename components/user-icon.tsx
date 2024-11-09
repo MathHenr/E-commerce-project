@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { UserCircle2, Settings, LogOut } from "lucide-react"
 
+import { deleteSession } from "@/lib/session"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,6 +11,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 
 export const UserIcon = () => {
     return (
@@ -35,13 +37,13 @@ export const UserIcon = () => {
                     Item 2
                 </DropdownMenuItem>
                 <DropdownMenuItem className="w-full flex justify-center mt-3 hover:cursor-pointer hover:bg-slate-300/95">
-                    <Link
-                        className="flex gap-2"
-                        href="/profile"
+                    <Button
+                        className="px-3 w-auto rounded-sm text-sm"
+                        onClick={() => deleteSession()}
                     >
                         <LogOut />
                         Sign Out
-                    </Link>    
+                    </Button>    
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

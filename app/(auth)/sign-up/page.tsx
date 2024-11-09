@@ -68,26 +68,24 @@ export default function Page () {
             return null
         }
         // validating user's data
-        const user = new Validation(
+        const formData = new Validation(
             firstName,
             lastName,
             email,
             cpf,
             password
         )
-        const data = user.validate()
+        const userData = formData.validate()
         // render a error message on screen if exist one
-        if (data.status === "Erro") {
-            toast.error(data.error_message)
+        if (userData.success === false) {
+            toast.error(userData.error_message)
             return null
         }
         // Create user in DB
-        const results = await createUser(data.schema)
-        results.ok 
-            ? redirectUser(results.message)
-            : toast.error(results.message, {
-                duration: 5000,
-            })
+        const user = await createUser(userData.schema)
+
+        user.success ? redirectUser(user.message) : toast.error(user.message, { duration: 5000, })
+        
         return
     }
     

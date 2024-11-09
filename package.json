@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "drizzle-cuid2": "^1.0.5",
     "drizzle-orm": "^0.36.0",
+    "jose": "^5.9.6",
     "lucide-react": "^0.454.0",
     "next": "15.0.1",
     "next-auth": "^4.24.10",
@@ -45,5 +46,10 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

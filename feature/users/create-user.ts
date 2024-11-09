@@ -5,46 +5,60 @@ import { drizzle } from "drizzle-orm/node-postgres"
 import { eq } from "drizzle-orm"
 
 import { usersTable } from "@/db/schema"
+import { createSession } from "@/lib/session"
 
 const db = drizzle(process.env.DATABASE_URL!)
 
 type NewUser = typeof usersTable.$inferInsert
 
-type Response = {
-    ok: boolean,
+interface UserResponse {
+    success: boolean,
     message: string,
 }
 
-export const createUser = async (user: NewUser): Promise<Response> => {
-    let status = {
-        ok: false,
-        message: "",
-    }
-    try {
-        const cpfAlreadyExist = await db
-            .select().from(usersTable).where(
-                eq(usersTable.cpf, user.cpf)
-            )
-        
-        if (cpfAlreadyExist.length > 0) {
-            status = {
-                ok: false,
-                message: "Cpf already exist in database!"
-            }
-            return status
-        }
+export async function createUser (data: NewUser): Promise<UserResponse> {
+    const user = new User(data)
+    return await user.CreateUser()
+}
 
-        await db.insert(usersTable).values(user)
-        
-        status = {
-            ok: true,
-            message: "User created successfully!"
-        }
-    } catch (error) {
-        status = {
-            ok: false,
-            message: "Email already exist in database!"
-        } 
+class User {
+    constructor(
+        private readonly user: NewUser
+    ){}
+    
+    public async CreateUser (): Promise<UserResponse> {
+        return this.insertUserInDB()
     }
-    return status
+
+     private async insertUserInDB (): Promise<UserResponse> {
+        try {
+            // Check if any user with this cpf already exist
+            const cpfAlreadyExist = await db
+                .select().from(usersTable).where(
+                    eq(usersTable.cpf, this.user.cpf)
+                )
+            
+            if (cpfAlreadyExist.length > 0) {
+                return {
+                    success: false,
+                    message: "Already have an user with this CPF!"
+                }
+            }
+
+            const user =  await db.insert(usersTable).values(this.user).returning()
+
+            await createSession(String(user[0].id))
+
+            return {
+                success: true,
+                message: "User created successfully!"
+            }
+        } catch (error) {
+            console.log(error)
+            return {
+                success: false,
+                message: "Email already exist in database!"
+            }
+        }
+    }
 }
