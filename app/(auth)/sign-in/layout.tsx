@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode;
 }
 
-export default function SignOutLayout ({ children }: Props) {
+export default function SignInLayout ({ children }: Props) {
     return (
         <>
             <main className="mb-32">
