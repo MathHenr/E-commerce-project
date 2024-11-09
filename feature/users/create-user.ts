@@ -54,7 +54,6 @@ class User {
                 message: "User created successfully!"
             }
         } catch (error) {
-            console.log(error)
             return {
                 success: false,
                 message: "Email already exist in database!"
