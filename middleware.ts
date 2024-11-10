@@ -11,7 +11,8 @@ export default async function middleware(req: NextRequest) {
 
     const cookie = (await cookies()).get('session')?.value
     const session = await decrypt(cookie)
-
+    // TODO: google session if user sign-in with google acc
+    
     if (isPrivateRoute && !session?.userId) {
         return NextResponse.redirect(new URL("/sign-in", req.nextUrl))
     }

@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Pencil, Save } from "lucide-react";
 
+import { getUserData } from "@/feature/profile/user-data"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
@@ -11,6 +12,13 @@ import { Sidebar } from "@/app/(profile)/components/sidebar";
 export default function Page () {
     const [disabled, setDisabled] = useState(true)
 
+    useEffect(() => {
+        async function db() {
+            const data = await getUserData()
+            console.log(data)
+        }
+    }, [])
+    
     function handleEdit () {
         disabled ? setDisabled(false) : setDisabled(true)
     }
