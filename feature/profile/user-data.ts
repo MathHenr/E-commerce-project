@@ -7,7 +7,6 @@ import { cookies } from "next/headers"
 
 import { usersTable } from "@/db/schema"
 import { decrypt } from "@/lib/session"
-import { Dispatch, SetStateAction } from "react"
 
 const db = drizzle(process.env.DATABASE_URL!)
 
@@ -24,14 +23,14 @@ export interface FetchData {
 }
 
 export async function getUserData (): Promise<FetchData | null> {
-    const data = new UserData()
-    const user = await data.select()
+    const userData = new UserData()
+    const data = await userData.select()
 
-    if (user.success === false) {
+    if (data.success === false) {
         return null
     }
     
-    return user
+    return data
 }
 
 class UserData {
