@@ -3,21 +3,36 @@
 import { useEffect, useState } from "react";
 import { Mail, Pencil, Save } from "lucide-react";
 
-import { getUserData } from "@/feature/profile/user-data"
+import { getUserData, FetchData } from "@/feature/profile/user-data"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
 
 export default function Page () {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [cpf, setCPF] = useState('')
+    const [cep, setCEP] = useState<string | null>(null)
     const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
-        async function db() {
-            const data = await getUserData()
-            console.log(data)
+        async function fillInputWithData() {
+            const response = await getUserData()
+
+            if (typeof response === null) {
+                return console.log("Failed to fetch")
+            }
+
+            setFirstName(response!.user!.firstName)
+            setLastName(response!.user!.lastName)
+            setEmail(response!.user!.email)
+            setCPF(response!.user!.cpf)
+            setCEP(response!.user!.cep)
         }
-    }, [])
+        fillInputWithData()
+    } ,[])
     
     function handleEdit () {
         disabled ? setDisabled(false) : setDisabled(true)
@@ -38,7 +53,7 @@ export default function Page () {
                             <div className="flex gap-3 items-center">
                                 <div className="size-[100px] bg-slate-700 rounded-full shadow-sm hover:drop-shadow-xl hover:scale-105 transition-all ease-linear"/>
                                 <span>
-                                    Username
+                                    {`${firstName} ${lastName}`}
                                 </span>
                             </div>
                             {disabled ? (
@@ -71,7 +86,8 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
+                                        value={firstName ? firstName : ''}
                                     />
                                 </span>
 
@@ -84,7 +100,8 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
+                                        value={lastName ? lastName : ''}
                                     />
                                 </span>
 
@@ -97,7 +114,8 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
+                                        value={cpf ? cpf : ''}
                                     />
                                 </span>
                             </div>
@@ -113,7 +131,7 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
                                     />
                                 </span>
 
@@ -127,7 +145,7 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
                                     />
                                 </span>
 
@@ -141,7 +159,7 @@ export default function Page () {
                                         placeholder:text-black 
                                         text-black text-base"
                                         disabled={disabled}
-                                        placeholder="Seu nome esta aqui"
+                                        placeholder="Insert your info here..."
                                     />
                                 </span>
 
@@ -153,7 +171,7 @@ export default function Page () {
                                 <Mail className="text-slate-200/95"/>
                             </div>
                             <span>
-                                your@email.com
+                                {email}
                             </span>
                         </div>
                         <slot>
