@@ -51,7 +51,7 @@ export default function Page () {
                 <Sidebar />
             </div>
             <div className="flex flex-col col-span-11 font-poppins">
-                <Nav />
+                <Nav firstName={firstName} lastName={lastName}/>
                 
                 <div className="h-full px-4 py-2">
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
@@ -64,7 +64,8 @@ export default function Page () {
                                     <div className="flex gap-3 items-center">
                                         <div className="size-[100px] bg-slate-700 rounded-full shadow-sm hover:drop-shadow-xl hover:scale-105 transition-all ease-linear"/>
                                         <span>
-                                            {`${firstName} ${lastName}`}
+                                            {`${firstName.charAt(0).toUpperCase().concat(firstName.slice(1))} 
+                                            ${lastName.charAt(0).toUpperCase().concat(lastName.slice(1))}`}
                                         </span>
                                     </div>
                                     { disabled ? (
