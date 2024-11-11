@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Mail, Pencil, Save } from "lucide-react";
+import { Eye, EyeClosed, Mail, Pencil, Save } from "lucide-react";
 
 import { getUserData } from "@/feature/profile/user-data"
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,8 @@ export default function Page () {
     const [cep, setCEP] = useState<string | null>(null)
     const [disabled, setDisabled] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [isEyeClosed, setIsEyeClosed] = useState(true)
+    
 
     useEffect(() => {
         async function fillInputWithData() {
@@ -96,7 +98,9 @@ export default function Page () {
                                                 text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
-                                                value={firstName ? firstName : ''}
+                                                value={firstName 
+                                                    ? firstName.charAt(0).toUpperCase().concat(firstName.slice(1)) // Coloca 1ª letra UpperCase
+                                                    : ''}
                                             />
                                         </span>
 
@@ -110,7 +114,9 @@ export default function Page () {
                                                 text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
-                                                value={lastName ? lastName : ''}
+                                                value={lastName 
+                                                    ? lastName.charAt(0).toUpperCase().concat(lastName.slice(1)) 
+                                                    : ''}
                                             />
                                         </span>
 
@@ -118,14 +124,30 @@ export default function Page () {
                                             <p>
                                                 CPF
                                             </p>
-                                            <Input 
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Insert your info here..."
-                                                value={cpf ? cpf : ''}
-                                            />
+                                            <div className="flex items-center gap-2">
+                                                <Input 
+                                                    className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
+                                                    placeholder:text-black 
+                                                    text-black text-base"
+                                                    disabled={disabled}
+                                                    placeholder="Insert your info here..."
+                                                    value={cpf && isEyeClosed 
+                                                        ? `${cpf.slice(0, 2)}.***.***-${cpf.slice(-2)}` 
+                                                        : !isEyeClosed 
+                                                            ? cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, `$1.$2.$3-$4`)
+                                                            : ''}
+                                                />
+                                                <Button
+                                                    className="w-auto rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                                    onClick={() => isEyeClosed ? setIsEyeClosed(false) : setIsEyeClosed(true)}
+                                                >
+                                                    {isEyeClosed ? (
+                                                        <EyeClosed size={24} />
+                                                    ) : (
+                                                        <Eye size={24} />
+                                                    )}
+                                                </Button>
+                                            </div>
                                         </span>
                                     </div>
 
