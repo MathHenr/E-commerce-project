@@ -25,8 +25,7 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { getUserData } from "@/feature/profile/get-user-data"
-
+import { useAuth } from "@/hook/useAuth"
 
 const routes = [
     {
@@ -53,6 +52,7 @@ export const Navigation = () => {
     const isMobile = useMedia("(max-width: 1024px)", false)
     const pathname = usePathname()
     const router = useRouter()
+    const { user, logout } = useAuth()
     
     const onClick = (href: string): void => {
         router.push(href)
@@ -62,16 +62,14 @@ export const Navigation = () => {
 
     useEffect(() => {
         async function getUser () {
-            const userData = await getUserData()
-
-            if (!userData) {
-                throw new Error('deu erro')
+            if (!user) {
+                throw new Error("User data was not found.")
             }
 
-            setFirstName(userData.user!.firstName)
+            setFirstName(user.firstName)
         }
         getUser()
-    }, [])
+    })
     
     if (isMobile) {
        return (
@@ -117,6 +115,7 @@ export const Navigation = () => {
                     </SheetContent>
                 </Sheet>
             </div>
+            {firstName ? firstName : ""}
             <UserIcon />
         </div>
        )
