@@ -13,7 +13,7 @@ const db = drizzle(process.env.DATABASE_URL!, { schema })
 
 type NewAddress = typeof addressTable.$inferInsert
 
-interface Address {
+export interface AddressSchema {
     number: number | null;
     cep: string;
     state: string;
@@ -22,7 +22,7 @@ interface Address {
     street: string;
 }
 
-export async function createAdress(data: NewAddress, user: User): Promise<Address> {
+export async function createAdress(data: NewAddress, user: User): Promise<AddressSchema> {
     const newAddress = new CreateAddress(data, user)
     return await newAddress.createAddress()
 }
@@ -35,11 +35,11 @@ class CreateAddress {
         this.address.customerId = 0;
     }
 
-    public async createAddress(): Promise<Address> {
+    public async createAddress(): Promise<AddressSchema> {
         return await this.InsertAddress()
     }
 
-    private async InsertAddress(): Promise<Address>{
+    private async InsertAddress(): Promise<AddressSchema>{
         try {
             const searchIdUser = await db.query.usersTable.findFirst({
                 where: eq(usersTable.email, this.user.email)
@@ -57,7 +57,7 @@ class CreateAddress {
 
             return filteResult
         } catch (error) {
-            throw new Error("Something went wrong creating address.")
+            throw new Error("Already have an address.")
         }
     }
 }

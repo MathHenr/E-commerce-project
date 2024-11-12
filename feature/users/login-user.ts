@@ -73,6 +73,7 @@ class CheckUser {
 
             // removing id
             const { id, password, ...filter } = user
+
             
             return filter
         } catch (error) {

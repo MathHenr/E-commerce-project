@@ -3,14 +3,14 @@
 import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-postgres"
 import { eq } from "drizzle-orm"
+import * as schema from "@/db/schema"
 import { cookies } from "next/headers"
 
 import { User } from "@/feature/users/login-user"
 import { usersTable } from "@/db/schema"
 import { decrypt } from "@/lib/session"
 
-const db = drizzle(process.env.DATABASE_URL!)
-
+const db = drizzle(process.env.DATABASE_URL!, { schema })
 
 export async function getUserData (): Promise<User | null> {
     const userData = new UserData()
@@ -34,22 +34,20 @@ class UserData {
         try {
             const userId = await this.getSession()
             
-            const user = await db.select()
-                .from(usersTable).where(
-                    eq(usersTable.id, Number(userId))
-                )
+            const user = await db.query.usersTable.findFirst({
+                where: eq(usersTable.id, Number(userId)),
+                with: {
+                    addressTable: true,
+                }
+            })
             
-            if (user.length === 0) {
+            if (user === undefined) {
                 return null
             }
 
-            return {
-                firstName: user[0].firstName,
-                lastName: user[0].lastName,
-                email: user[0].email,
-                cpf: user[0].cpf,
-                cep: user[0].cep,
-            }
+            const { id, password, ...response } = user
+
+            return response
         } catch (error) {
             return null
         }
