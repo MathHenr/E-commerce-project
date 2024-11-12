@@ -35,6 +35,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/node": "^20",
     "@types/pg": "^8.11.10",
     "@types/react": "^18",

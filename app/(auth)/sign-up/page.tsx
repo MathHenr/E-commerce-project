@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation"
 
 import { Validation } from "@/app/actions/sign-up-validation"
 import { createUser } from "@/feature/users/create-user"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
+
+import { Swicth } from "../components/swicth"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 export default function Page () {
     const [firstName, setFirtName] = useState('')
@@ -102,7 +104,12 @@ export default function Page () {
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, voluptatem. Sunt reprehenderit doloribus facilis.
                         </p>
                     </span>
-                    <form onSubmit={handleSubmit} className="max-w-[350px] w-3/4 flex flex-col gap-2">
+
+                    <div className="w-ful py-2 mx-auto">
+                       <Swicth />
+                    </div>
+                    
+                    <form onSubmit={handleSubmit} className="max-w-[350px] w-3/4 flex flex-col gap-2 transition-all ease-linear animate-[fadeLeft_ease-out_0.5s_forwards]">
                         <label className="text-base font-semibold tracking-wide flex flex-col">
                             First Name
                             <Input

@@ -61,6 +61,16 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+		keyframes: {
+			fadeLeft: {
+				"from": { transform: 'translateX(50px)', opacity: "0.4" },
+				"to": { transform: 'translateX(0px)', opacity: "1"}
+			},
+			fadeRigth: {
+				"from": { transform: 'translateX(-50px)', opacity: "0.4" },
+				"to": { transform: 'translateX(0px)', opacity: "1"}
+			}
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],
