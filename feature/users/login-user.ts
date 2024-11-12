@@ -10,17 +10,22 @@ import { createSession } from "@/lib/session"
 
 const db = drizzle(process.env.DATABASE_URL!)
 
-export type NewUser = typeof usersTable.$inferInsert
-
-interface UserResponse {
-    success: boolean,
-    message: string,
+export interface User {
+    firstName: string;
+    lastName: string;
+    email: string;
+    cpf: string;
+    cep: string | null;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
 }
 
-export async function login (email: string, password: string): Promise<UserResponse> {
+export async function login (email: string, password: string): Promise<User | null> {
     const log = new CheckUser(email, password)
     return await log.Login()
 }
+
+export async function logout () {}
 
 class CheckUser {
     constructor(
@@ -28,51 +33,38 @@ class CheckUser {
         private readonly hash: string,
     ){}
     
-    public async Login (): Promise<UserResponse> {
-        return await this.CheckUserInDB()
+    public async Login (): Promise<User | null> {
+        const response = await this.CheckUserInDB()
+        if (!response) {
+            return null
+        }
+        return response
     }
 
-    private async CheckUserInDB (): Promise<UserResponse> {
+    private async CheckUserInDB (): Promise<User> {
         try {
             const user = await db
                 .select().from(usersTable).where(
                     eq(usersTable.email, this.email)
                 )
             
-            if (user.length > 1) {
-                return {
-                    success: false,
-                    message: "There are multiple users found in the database."
-                }
-            }
-
-            if (user.length === 0) {
-                return {
-                    success: false,
-                    message: "Invalid email credential."
-                }
-            }
-            
             const passMatch = await compare(this.hash, user[0].password)
             
             if (!passMatch) {
-                return {
-                    success: false,
-                    message: "Invalid password credential."
-                }
+                throw new Error("Invalid password credential.")
             }
 
             await createSession(String(user[0].id))
 
-            return {
-                success: true,
-                message: "User logged in successfully!"
-            }
+            // removing id
+            const filter = user.map((att) => {
+                const { id, password, ...rest } = att
+                return rest
+            })
+
+            return filter[0]
         } catch (error) {
-            return {
-                success: false,
-                message: "Failed to connect."
-            }
+            throw new Error("Invalid credentials.")
         }
     }
 }

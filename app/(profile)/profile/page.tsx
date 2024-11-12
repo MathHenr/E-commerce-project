@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Loading } from "@/components/loading";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
+import { useAuth } from "@/hook/useAuth";
 
 export default function Page () {
+    const { user } = useAuth()
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -24,22 +26,20 @@ export default function Page () {
     useEffect(() => {
         async function fillInputWithData() {
             setLoading(true)
-            const response = await getUserData()
 
-            if (typeof response === null || !response?.user) {
-                setLoading(false)
-                return console.log("Failed to fetch")
+            if (user === null) {
+                return console.log('aqui')
             }
 
-            setFirstName(response.user.firstName)
-            setLastName(response.user.lastName)
-            setEmail(response.user.email)
-            setCPF(response.user.cpf)
-            setCEP(response.user.cep)
+            setFirstName(user.firstName)
+            setLastName(user.lastName)
+            setEmail(user.email)
+            setCPF(user.cpf)
+            setCEP(user.cep)
             setLoading(false)
         }
         fillInputWithData()
-    } ,[])
+    })
     
     function handleEdit () {
         disabled ? setDisabled(false) : setDisabled(true)

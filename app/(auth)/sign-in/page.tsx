@@ -1,6 +1,5 @@
 "use client"
 
-
 import { FormEvent, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -8,20 +7,19 @@ import { signIn } from "next-auth/react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-import { createUser } from "@/feature/users/create-user"
 import { toast } from "sonner"
 
+import { useAuth } from "@/hook/useAuth"
 import { Swicth } from "../components/swicth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { login } from "@/feature/users/login-user"
-
 
 
 export default function Page () {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const router = useRouter()
+    const { login } = useAuth()
 
     const fields = [
         {
@@ -33,11 +31,6 @@ export default function Page () {
             var: password,
         },
     ] 
-
-    function redirectUser (message: string) {
-        toast.success(message) 
-        router.push("/profile")
-    }
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
         event.preventDefault()
@@ -49,15 +42,21 @@ export default function Page () {
                 throw new Error("Empty fields")
             }
         })
-        const loggedInUser = await login(email, password)
-        // render a error message on screen if exist one
-        if (loggedInUser.success === false) {
-            toast.error(loggedInUser.message)
-            return null
+        try {
+            const loggedInUser = await login(email, password)
+            // render a error message on screen if exist one
+            if (loggedInUser === null) {
+               toast.error("Something went wrong")
+               return null
+            }
+            // Logged in User
+            router.push("/profile")
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message)
+            }
         }
-        // Logged in User
-        redirectUser(loggedInUser.message)
-
+        
         return
     }
     

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMedia } from "react-use"
 import { useRouter, usePathname } from "next/navigation"
 
@@ -25,6 +25,7 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import { getUserData } from "@/feature/profile/get-user-data"
 
 
 const routes = [
@@ -47,6 +48,7 @@ const routes = [
 ]
 
 export const Navigation = () => {
+    const [firstName, setFirstName] = useState('')
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const isMobile = useMedia("(max-width: 1024px)", false)
     const pathname = usePathname()
@@ -57,6 +59,19 @@ export const Navigation = () => {
         setIsOpen(false)
         return
     }
+
+    useEffect(() => {
+        async function getUser () {
+            const userData = await getUserData()
+
+            if (!userData) {
+                throw new Error('deu erro')
+            }
+
+            setFirstName(userData.user!.firstName)
+        }
+        getUser()
+    }, [])
     
     if (isMobile) {
        return (
@@ -259,7 +274,10 @@ export const Navigation = () => {
                                 />
                             </div>
                         </form>
-                        <div className="col-span-1 flex items-center justify-end">
+                        <div className="col-span-1 flex gap-3 items-center justify-end">
+                            <span className="text-sm antialiased font-normal">
+                                {firstName ? firstName : ''}
+                            </span>
                             <UserIcon />
                         </div>
                     </div>
