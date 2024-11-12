@@ -9,7 +9,7 @@ import { createSession } from "@/lib/session"
 
 const db = drizzle(process.env.DATABASE_URL!)
 
-type NewUser = typeof usersTable.$inferInsert
+export type NewUser = typeof usersTable.$inferInsert
 
 interface UserResponse {
     success: boolean,

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Eye, EyeClosed, Mail, Pencil, Save } from "lucide-react";
 
-import { getUserData } from "@/feature/profile/user-data"
+import { getUserData } from "@/feature/profile/get-user-data"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";

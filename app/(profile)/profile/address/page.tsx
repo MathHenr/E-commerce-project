@@ -5,7 +5,7 @@ import { Mail, Pencil, Save } from "lucide-react";
 
 
 import { cn } from "@/lib/utils";
-import { Address, CEP } from "@/app/actions/cep-api";
+import { Address, CEP } from "@/lib/cep-api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";

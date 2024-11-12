@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { Validation } from "@/app/actions/sign-up-validation"
+import { Validation } from "@/lib/sign-up-validation"
 import { createUser } from "@/feature/users/create-user"
 import { toast } from "sonner"
 

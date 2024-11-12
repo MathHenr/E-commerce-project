@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-import { Validation } from "@/app/actions/sign-up-validation"
+import { Validation } from "@/lib/sign-up-validation"
 import { createUser } from "@/feature/users/create-user"
 import { toast } from "sonner"
 
