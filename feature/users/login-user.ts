@@ -3,21 +3,31 @@
 import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-postgres"
 import { eq } from "drizzle-orm"
+import * as schema from "@/db/schema"
 import { compare } from "bcrypt-ts"
 
 import { usersTable } from "@/db/schema"
 import { createSession } from "@/lib/session"
 
-const db = drizzle(process.env.DATABASE_URL!)
+const db = drizzle(process.env.DATABASE_URL!, { schema })
 
 export interface User {
     firstName: string;
     lastName: string;
     email: string;
     cpf: string;
-    cep: string | null;
     createdAt?: Date | null;
     updatedAt?: Date | null;
+    addressTable: {
+        number: number,
+        id: number,
+        customerId: number,
+        cep: string,
+        state: string,
+        city: string,
+        neighborhood: string,
+        street: string,
+    }[];
 }
 
 export async function login (email: string, password: string): Promise<User | null> {
@@ -44,25 +54,29 @@ class CheckUser {
     private async CheckUserInDB (): Promise<User> {
         try {
             const user = await db
-                .select().from(usersTable).where(
-                    eq(usersTable.email, this.email)
-                )
+                .query.usersTable.findFirst({
+                    where: eq(usersTable.email, this.email),
+                    with: {
+                        addressTable: true
+                    },
+                })
             
-            const passMatch = await compare(this.hash, user[0].password)
+            if (user === undefined) {
+                throw new Error("User returned undefined in database search.")
+            }
+
+            const passMatch = await compare(this.hash, user.password)
             
             if (!passMatch) {
                 throw new Error("Invalid password credential.")
             }
 
-            await createSession(String(user[0].id))
+            await createSession(String(user.id))
 
             // removing id
-            const filter = user.map((att) => {
-                const { id, password, ...rest } = att
-                return rest
-            })
+            const { id, password, ...filter } = user
 
-            return filter[0]
+            return filter
         } catch (error) {
             throw new Error("Invalid credentials.")
         }

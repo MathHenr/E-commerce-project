@@ -1,0 +1,1 @@
+ALTER TABLE "address" RENAME COLUMN "costumer_id" TO "customer_id";

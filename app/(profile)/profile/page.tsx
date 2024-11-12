@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Eye, EyeClosed, Mail, Pencil, Save } from "lucide-react";
 
-import { getUserData } from "@/feature/profile/get-user-data"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
@@ -19,7 +18,7 @@ export default function Page () {
     const [cpf, setCPF] = useState('')
     const [cep, setCEP] = useState<string | null>(null)
     const [disabled, setDisabled] = useState(true)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [isEyeClosed, setIsEyeClosed] = useState(true)
     
 
@@ -28,14 +27,13 @@ export default function Page () {
             setLoading(true)
 
             if (user === null) {
-                return console.log('aqui')
+                return console.log('User is null here! profile page')
             }
 
             setFirstName(user.firstName)
             setLastName(user.lastName)
             setEmail(user.email)
             setCPF(user.cpf)
-            setCEP(user.cep)
             setLoading(false)
         }
         fillInputWithData()

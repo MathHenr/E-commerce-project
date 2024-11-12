@@ -15,6 +15,34 @@
       "when": 1731003381301,
       "tag": "0001_shiny_black_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1731420598908,
+      "tag": "0002_hard_mariko_yashida",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1731421420622,
+      "tag": "0003_mute_cargill",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1731421545223,
+      "tag": "0004_youthful_the_hand",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1731421582780,
+      "tag": "0005_round_mandarin",
+      "breakpoints": true
     }
   ]
 }

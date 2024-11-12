@@ -4,7 +4,6 @@ import {
     pgTable, 
     integer, 
     timestamp, 
-    foreignKey
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
@@ -14,14 +13,13 @@ export const usersTable = pgTable("users", {
     email: varchar({ length: 255 }).notNull().unique(),
     password: varchar({ length: 255 }).notNull(),
     cpf: varchar({ length: 11 }).notNull(),
-    cep: varchar(), // colocar dependencias do cep
     createdAt: timestamp().defaultNow(),
     updatedAt: timestamp().defaultNow(),
 })
 
 export const addressTable = pgTable("address", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    costumerId: integer("costumer_id").notNull(),
+    customerId: integer("customer_id").notNull(),
     cep: varchar({ length: 255 }).notNull(),
     state: varchar({ length: 255 }).notNull(),
     city: varchar({ length: 255 }).notNull(),
@@ -35,7 +33,7 @@ export const userRelations = relations(usersTable, ({ many }) => ({
 }))
 export const addressRelations = relations(addressTable, ({ one }) => ({
     usersTable: one(usersTable, {
-        fields: [addressTable.costumerId],
+        fields: [addressTable.customerId],
         references: [usersTable.id],
     })
 }))
