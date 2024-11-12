@@ -2,20 +2,62 @@
 
 import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-postgres"
+import * as schema from "@/db/schema"
 import { eq } from "drizzle-orm"
 
-import { addressTable } from "@/db/schema"
+import { usersTable, addressTable } from "@/db/schema"
 
-const db = drizzle(process.env.DATABASE_URL!)
+import { User } from "./login-user"
 
-type NewUser = typeof addressTable.$inferInsert
+const db = drizzle(process.env.DATABASE_URL!, { schema })
 
-export const createUser = async (user: NewUser) => {
+type NewAddress = typeof addressTable.$inferInsert
 
-    try {
-        
-    } catch (error) {
-        
+interface Address {
+    number: number | null;
+    cep: string;
+    state: string;
+    city: string;
+    neighborhood: string;
+    street: string;
+}
+
+export async function createAdress(data: NewAddress, user: User): Promise<Address> {
+    const newAddress = new CreateAddress(data, user)
+    return await newAddress.createAddress()
+}
+
+class CreateAddress {
+    constructor(
+        private readonly address: NewAddress,
+        private readonly user: User
+    ){
+        this.address.customerId = 0;
     }
-    return 
+
+    public async createAddress(): Promise<Address> {
+        return await this.InsertAddress()
+    }
+
+    private async InsertAddress(): Promise<Address>{
+        try {
+            const searchIdUser = await db.query.usersTable.findFirst({
+                where: eq(usersTable.email, this.user.email)
+            })
+
+            if (searchIdUser === undefined) {
+                throw new Error("User was undefined in create-adress.")
+            }
+
+            this.address.customerId = searchIdUser.id
+
+            const insertUserAddress = await db.insert(addressTable).values(this.address).returning()
+
+            const { id, customerId, ...filteResult } = insertUserAddress[0]
+
+            return filteResult
+        } catch (error) {
+            throw new Error("Something went wrong creating address.")
+        }
+    }
 }

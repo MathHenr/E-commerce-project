@@ -16,18 +16,16 @@ export interface User {
     lastName: string;
     email: string;
     cpf: string;
-    createdAt?: Date | null;
-    updatedAt?: Date | null;
     addressTable: {
-        number: number,
-        id: number,
-        customerId: number,
+        number: number | null,
         cep: string,
         state: string,
         city: string,
         neighborhood: string,
         street: string,
-    }[];
+    } | null;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
 }
 
 export async function login (email: string, password: string): Promise<User | null> {
@@ -75,7 +73,7 @@ class CheckUser {
 
             // removing id
             const { id, password, ...filter } = user
-
+            
             return filter
         } catch (error) {
             throw new Error("Invalid credentials.")

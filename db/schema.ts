@@ -25,11 +25,11 @@ export const addressTable = pgTable("address", {
     city: varchar({ length: 255 }).notNull(),
     neighborhood: varchar({ length: 255 }).notNull(),
     street: varchar({ length: 255 }).notNull(),
-    number: integer().notNull(),
+    number: integer(),
 })
 
-export const userRelations = relations(usersTable, ({ many }) => ({
-    addressTable: many(addressTable)
+export const userRelations = relations(usersTable, ({ one }) => ({
+    addressTable: one(addressTable)
 }))
 export const addressRelations = relations(addressTable, ({ one }) => ({
     usersTable: one(usersTable, {

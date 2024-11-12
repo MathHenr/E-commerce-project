@@ -1,17 +1,20 @@
 "use client"
 
 import { useState } from "react";
+import { useAuth } from "@/hook/useAuth";
 import { Mail, Pencil, Save } from "lucide-react";
-
 
 import { cn } from "@/lib/utils";
 import { Address, CEP } from "@/lib/cep-api";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
+import { createAdress } from "@/feature/users/create-address";
 
 export default function Page () {
+    const { user } = useAuth()
     const [disabled, setDisabled] = useState(true)
     const [cep, setCep] = useState('')
     const [error, setError] = useState('')
@@ -19,7 +22,7 @@ export default function Page () {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
-    const [number, setNumber] = useState(0)
+    const [houseNumber, setHouseNumber] = useState(0)
     
     async function handleSearchCep () {
         setError('')
@@ -28,16 +31,29 @@ export default function Page () {
         typeof data === 'string'
             ? setError(data)
             : attributeData(data)
-        console.log(data, error)
         return
     }
     
-    function attributeData (data: Address) {
-        setCep(data.cep)
-        setCity(data.city)
-        setNeighborhood(data.neighborhood)
-        setState(data.state)
-        setStreet(data.street)
+    async function attributeData (data: Address) {
+        if (user === null) {
+            return null
+        }
+
+        const { service, ...newData } = data
+
+        const dataToInsert = {
+            ...newData,
+            customerId: 0,
+            number: houseNumber,
+        }
+
+        try {
+            const response = await createAdress(dataToInsert, user)
+            user.addressTable = response
+        } catch (error) {
+            throw new Error("Something wen wrong while we were saving your address.")
+        }
+        
         return
     }
 
@@ -51,7 +67,7 @@ export default function Page () {
                 <Sidebar />
             </div>
             <div className="flex flex-col col-span-11 font-poppins">
-                <Nav />
+                <Nav firstName={user?.firstName} lastName={user?.lastName} />
                 
                 <div className="h-full px-4 py-2">
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
@@ -178,8 +194,8 @@ export default function Page () {
                                         text-black text-base"
                                         disabled={disabled}
                                         placeholder="Seu nome esta aqui"
-                                        onChange={(e) => setNumber(Number(e.target.value))}
-                                        value={number}
+                                        onChange={(e) => setHouseNumber(Number(e.target.value))}
+                                        value={houseNumber}
                                     />
                                 </span>
 
