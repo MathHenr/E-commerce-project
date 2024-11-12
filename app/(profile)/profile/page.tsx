@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hook/useAuth";
 import { Eye, EyeClosed, Mail, Pencil, Save } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Loading } from "@/components/loading";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
-import { useAuth } from "@/hook/useAuth";
+
+import { Username } from "../components/username";
 
 export default function Page () {
     const { user } = useAuth()
@@ -49,13 +51,8 @@ export default function Page () {
                             <>
                                 {/* profile header */}
                                 <div className="w-full flex items-center justify-between">
-                                    <div className="flex gap-3 items-center">
-                                        <div className="size-[100px] bg-slate-700 rounded-full shadow-sm hover:drop-shadow-xl hover:scale-105 transition-all ease-linear"/>
-                                        <span>
-                                            {`${user?.firstName.charAt(0).toUpperCase().concat(user.firstName.slice(1))} 
-                                            ${user?.lastName.charAt(0).toUpperCase().concat(user.lastName.slice(1))}`}
-                                        </span>
-                                    </div>
+                                    <Username firstName={user?.firstName} lastName={user?.lastName} />
+                                    
                                     { disabled ? (
                                         <Button
                                             className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"

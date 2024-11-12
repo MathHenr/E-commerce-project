@@ -15,6 +15,8 @@ import { Nav } from "@/app/(profile)/components/nav";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
 import { Loading } from "@/components/loading";
 
+import { Username } from "../../components/username";
+
 export default function Page () {
     const { user } = useAuth()
     const [disabled, setDisabled] = useState(true)
@@ -148,12 +150,8 @@ export default function Page () {
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
                         {/* profile header */}
                         <div className="w-full flex items-center justify-between">
-                            <div className="flex gap-3 items-center">
-                                <div className="size-[100px] bg-slate-700 rounded-full shadow-sm hover:drop-shadow-xl hover:scale-105 transition-all ease-linear"/>
-                                <span>
-                                    Username
-                                </span>
-                            </div>
+                            <Username firstName={user?.firstName} lastName={user?.lastName} />
+                            
                             {disabled ? (
                                 <Button
                                     className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
@@ -305,7 +303,7 @@ export default function Page () {
                                         <Mail className="text-slate-200/95"/>
                                     </div>
                                     <span>
-                                        your@email.com
+                                        {user?.email}
                                     </span>
                                 </div>
                                 <slot>
