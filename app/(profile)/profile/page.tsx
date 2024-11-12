@@ -12,11 +12,6 @@ import { useAuth } from "@/hook/useAuth";
 
 export default function Page () {
     const { user } = useAuth()
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [cpf, setCPF] = useState('')
-    const [cep, setCEP] = useState<string | null>(null)
     const [disabled, setDisabled] = useState(true)
     const [loading, setLoading] = useState(true)
     const [isEyeClosed, setIsEyeClosed] = useState(true)
@@ -29,11 +24,6 @@ export default function Page () {
             if (user === null) {
                 return console.log('User is null here! profile page')
             }
-
-            setFirstName(user.firstName)
-            setLastName(user.lastName)
-            setEmail(user.email)
-            setCPF(user.cpf)
             setLoading(false)
         }
         fillInputWithData()
@@ -49,7 +39,7 @@ export default function Page () {
                 <Sidebar />
             </div>
             <div className="flex flex-col col-span-11 font-poppins">
-                <Nav firstName={firstName} lastName={lastName}/>
+                <Nav firstName={user?.firstName} lastName={user?.lastName}/>
                 
                 <div className="h-full px-4 py-2">
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
@@ -62,8 +52,8 @@ export default function Page () {
                                     <div className="flex gap-3 items-center">
                                         <div className="size-[100px] bg-slate-700 rounded-full shadow-sm hover:drop-shadow-xl hover:scale-105 transition-all ease-linear"/>
                                         <span>
-                                            {`${firstName.charAt(0).toUpperCase().concat(firstName.slice(1))} 
-                                            ${lastName.charAt(0).toUpperCase().concat(lastName.slice(1))}`}
+                                            {`${user?.firstName.charAt(0).toUpperCase().concat(user.firstName.slice(1))} 
+                                            ${user?.lastName.charAt(0).toUpperCase().concat(user.lastName.slice(1))}`}
                                         </span>
                                     </div>
                                     { disabled ? (
@@ -97,8 +87,8 @@ export default function Page () {
                                                 text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
-                                                value={firstName 
-                                                    ? firstName.charAt(0).toUpperCase().concat(firstName.slice(1)) // Coloca 1ª letra UpperCase
+                                                value={user 
+                                                    ? user.firstName.charAt(0).toUpperCase().concat(user.firstName.slice(1)) // Coloca 1ª letra UpperCase
                                                     : ''}
                                             />
                                         </span>
@@ -113,8 +103,8 @@ export default function Page () {
                                                 text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
-                                                value={lastName 
-                                                    ? lastName.charAt(0).toUpperCase().concat(lastName.slice(1)) 
+                                                value={user
+                                                    ? user.lastName.charAt(0).toUpperCase().concat(user.lastName.slice(1)) 
                                                     : ''}
                                             />
                                         </span>
@@ -130,10 +120,10 @@ export default function Page () {
                                                     text-black text-base"
                                                     disabled={disabled}
                                                     placeholder="Insert your info here..."
-                                                    value={cpf && isEyeClosed 
-                                                        ? `${cpf.slice(0, 2)}.***.***-${cpf.slice(-2)}` 
+                                                    value={user && isEyeClosed 
+                                                        ? `${user.cpf.slice(0, 2)}.***.***-${user.cpf.slice(-2)}` 
                                                         : !isEyeClosed 
-                                                            ? cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, `$1.$2.$3-$4`)
+                                                            ? user?.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, `$1.$2.$3-$4`)
                                                             : ''}
                                                 />
                                                 <Button
@@ -201,7 +191,7 @@ export default function Page () {
                                         <Mail className="text-slate-200/95"/>
                                     </div>
                                     <span>
-                                        {email}
+                                        {user?.email}
                                     </span>
                                 </div>
                                 <slot>
