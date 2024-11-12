@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const userData = await getUserData()
 
             if (!userData) {
-                throw new Error('deu ruim')
+                return null //No user is logged in
             }
 
             setUser(userData)

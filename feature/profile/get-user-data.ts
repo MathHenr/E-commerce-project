@@ -17,7 +17,7 @@ export async function getUserData (): Promise<User | null> {
     const data = await userData.select()
 
     if (data === null) {
-        throw new ReferenceError("User data not found.")
+        return null
     }
     
     return data
