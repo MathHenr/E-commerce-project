@@ -18,7 +18,6 @@ import { Loading } from "@/components/loading";
 export default function Page () {
     const { user } = useAuth()
     const [disabled, setDisabled] = useState(true)
-    const [data, setData] = useState<Address| null>(null)
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [userWrote, setUserWrote] = useState(false)
@@ -43,56 +42,68 @@ export default function Page () {
         async function load () {
             setIsLoading(true)
             if (user && user.addressTable !== null) {
-                setData(user.addressTable)
+                setCep(user.addressTable.cep)
+                setCity(user.addressTable.city)
+                setState(user.addressTable.state)
+                setStreet(user.addressTable.street)
+                setNeighborhood(user.addressTable.neighborhood)
                 setHouseNumber(user.addressTable.number!)
             }
             setIsLoading(false)
         }
         load()
-    }, [data, user])
+    }, [user])
+    
+    function setValuesCep (data: Address): void {
+        setCep(data.cep)
+        setCity(data.city)
+        setState(data.state)
+        setStreet(data.street)
+        setNeighborhood(data.neighborhood)
+        return
+    }
     
     async function handleSearchCep () {
         setError('')
         const response = new CEP(cep)  
-        const data = await response.getCep()
-        typeof data === 'string'
-            ? setError(data)
-            : setData(data)
+        const userCEP = await response.getCep()
+        typeof userCEP === 'string'
+            ? setError(userCEP)
+            : setValuesCep(userCEP)
         return
     }
     
     async function handleSavingAddress () {
         if (houseNumber === 0) {
-           toast.error("Insert your house number")
+           toast.error("Insert your house number.")
            return null
         }
 
         if (userWrote) {
             try {
                 verifyInputsValue()
-                const values = {
-                    cep,
-                    street,
-                    city,
-                    state,
-                    neighborhood,
-                    houseNumber
-                }
-                setData(values)
             } catch (error) {
-               return null
+                if (error instanceof Error) {
+                    toast.error(error.message)
+                }
             }
         }
+
+        const values: Address | null = {
+            cep,
+            street,
+            city,
+            state,
+            neighborhood,
+        }
         
-        if (user === null || data === null) {
-            toast.error("Something went wrong.")
+        if (user === null || values === null) {
+            toast.error("Input is missing.")
             return 
         }
 
-        const { service, ...newData } = data
-
         const addressToInsert = {
-            ...newData,
+            ...values,
             customerId: 0,
             number: houseNumber,
         }
@@ -102,7 +113,7 @@ export default function Page () {
             toast.success("Address successfully saved!")
         } catch (error) {
             if (error instanceof Error) {
-                console.log(error.message)
+                toast.error(error.message)
             }
         }
         setDisabled(true)
@@ -122,7 +133,6 @@ export default function Page () {
     }
     
     function handleEdit () {
-        setData(null)
         disabled ? setDisabled(false) : setDisabled(true)
     }
     
@@ -184,7 +194,7 @@ export default function Page () {
                                                         setUserWrote(true)
                                                         setCep(e.target.value)
                                                     }}
-                                                    value={data?.cep !== undefined ? data?.cep.replace(/(\d{5})(\d{3})/, '$1-$2') : cep.replace(/(\d{5})(\d{3})/, '$1-$2')}
+                                                    value={cep.replace(/(\d{5})(\d{3})/, '$1-$2')}
                                                 />
                                                 <Button
                                                     className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
@@ -209,7 +219,7 @@ export default function Page () {
                                                     setUserWrote(true)
                                                     setStreet(e.target.value)
                                                 }}
-                                                value={data !== null ? data?.street : street}
+                                                value={street}
                                             />
                                         </span>
         
@@ -227,7 +237,7 @@ export default function Page () {
                                                     setUserWrote(true)
                                                     setCity(e.target.value)
                                                 }}
-                                                value={data !== null ? data?.city : city}
+                                                value={city}
                                             />
                                         </span>
                                     </div>
@@ -247,7 +257,7 @@ export default function Page () {
                                                     setUserWrote(true)
                                                     setState(e.target.value)
                                                 }}
-                                                value={data !== null ? data?.state : state}
+                                                value={state}
                                             />
                                         </span>
         
@@ -265,7 +275,7 @@ export default function Page () {
                                                     setUserWrote(true)
                                                     setNeighborhood(e.target.value)
                                                 }}
-                                                value={data !== null ? data?.neighborhood : neighborhood}
+                                                value={neighborhood}
                                             />
                                         </span>
         
@@ -279,8 +289,11 @@ export default function Page () {
                                                 text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your house number here..."
-                                                onChange={(e) => setHouseNumber(Number(e.target.value))}
-                                                value={houseNumber !== 0 ? houseNumber : ""}
+                                                onChange={(e) => {
+                                                    setUserWrote(true)
+                                                    setHouseNumber(Number(e.target.value))
+                                                }}
+                                                value={houseNumber}
                                             />
                                         </span>
         

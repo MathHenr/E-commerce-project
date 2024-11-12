@@ -42,11 +42,20 @@ class CreateAddress {
     private async InsertAddress(): Promise<AddressSchema>{
         try {
             const searchIdUser = await db.query.usersTable.findFirst({
-                where: eq(usersTable.email, this.user.email)
+                where: eq(usersTable.email, this.user.email),
+                with: {
+                    addressTable: true,
+                }
             })
-
+            
             if (searchIdUser === undefined) {
                 throw new Error("User was undefined in create-adress.")
+            }
+
+            if (searchIdUser.addressTable !== null) {
+                await db.delete(addressTable).where(
+                    eq(addressTable.customerId, searchIdUser.id)
+                )
             }
 
             this.address.customerId = searchIdUser.id
