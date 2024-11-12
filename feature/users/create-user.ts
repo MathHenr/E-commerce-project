@@ -17,11 +17,11 @@ interface UserResponse {
 }
 
 export async function createUser (data: NewUser): Promise<UserResponse> {
-    const user = new User(data)
+    const user = new CreateUser(data)
     return await user.CreateUser()
 }
 
-class User {
+class CreateUser {
     constructor(
         private readonly user: NewUser
     ){}
@@ -30,7 +30,7 @@ class User {
         return this.insertUserInDB()
     }
 
-     private async insertUserInDB (): Promise<UserResponse> {
+    private async insertUserInDB (): Promise<UserResponse> {
         try {
             // Check if any user with this cpf already exist
             const cpfAlreadyExist = await db

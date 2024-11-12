@@ -8,51 +8,32 @@ import { signIn } from "next-auth/react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-import { Validation } from "@/lib/sign-up-validation"
 import { createUser } from "@/feature/users/create-user"
 import { toast } from "sonner"
 
 import { Swicth } from "../components/swicth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { login } from "@/feature/users/login-user"
 
 
 
 export default function Page () {
-    const [firstName, setFirtName] = useState('')
-    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [cpf, setCpf] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const router = useRouter()
 
     const fields = [
         {
-            name: "First Name",
-            var: firstName,
-        },
-        {
-            name: "Last Name",
-            var: lastName,
-        },
-        {
             name: "Email",
             var: email,
-        },
-        {
-            name: "CPF",
-            var: cpf,
         },
         {
             name: "Password",
             var: password,
         },
     ] 
-    
-    function verifyPasswords () {
-        return password === confirmPassword
-    }
+
     function redirectUser (message: string) {
         toast.success(message) 
         router.push("/profile")
@@ -68,32 +49,15 @@ export default function Page () {
                 throw new Error("Empty fields")
             }
         })
-        // verify if passwords match
-        if (!verifyPasswords()) {
-            toast.error("Passwords don't match, please fix it", {
-                duration: 5000,
-            })
-            return null
-        }
-        // validating user's data
-        const formData = new Validation(
-            firstName,
-            lastName,
-            email,
-            cpf,
-            password
-        )
-        const userData = formData.validate()
+        const loggedInUser = await login(email, password)
         // render a error message on screen if exist one
-        if (userData.success === false) {
-            toast.error(userData.error_message)
+        if (loggedInUser.success === false) {
+            toast.error(loggedInUser.message)
             return null
         }
-        // Create user in DB
-        const user = await createUser(userData.schema)
+        // Logged in User
+        redirectUser(loggedInUser.message)
 
-        user.success ? redirectUser(user.message) : toast.error(user.message, { duration: 5000, })
-        
         return
     }
     
