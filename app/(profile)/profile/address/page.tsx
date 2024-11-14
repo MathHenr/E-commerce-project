@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hook/useAuth";
-import { Mail, Pencil, Save } from "lucide-react";
+import { Mail, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Address, CEP } from "@/lib/cep-api";
@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
 import { Loading } from "@/components/loading";
-
-import { Username } from "../../components/username";
+import { ProfileHeader } from "@/app/(profile)/components/profile-header"
 
 export default function Page () {
     const { user } = useAuth()
@@ -101,7 +100,7 @@ export default function Page () {
         
         if (user === null || values === null) {
             toast.error("Input is missing.")
-            return 
+            return null
         }
 
         const addressToInsert = {
@@ -117,9 +116,10 @@ export default function Page () {
             if (error instanceof Error) {
                 toast.error(error.message)
             }
+            return null
         }
         setDisabled(true)
-        return
+        return null
     }
     
     function verifyInputsValue () {
@@ -134,10 +134,6 @@ export default function Page () {
         }
     }
     
-    function handleEdit () {
-        disabled ? setDisabled(false) : setDisabled(true)
-    }
-    
     return (
         <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-12">
             <div className="hidden md:grid col-span-1">
@@ -149,27 +145,12 @@ export default function Page () {
                 <div className="h-full px-4 py-2">
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
                         {/* profile header */}
-                        <div className="w-full flex items-center justify-between">
-                            <Username firstName={user?.firstName} lastName={user?.lastName} />
-                            
-                            {disabled ? (
-                                <Button
-                                    variant="change"
-                                    onClick={() => handleEdit()}
-                                >
-                                    <Pencil />
-                                    Edit
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="change"
-                                    onClick={() => handleSavingAddress()}
-                                >
-                                    <Save />
-                                    Save changes
-                                </Button>
-                            )}
-                        </div>
+                        <ProfileHeader 
+                            disabled
+                            setDisabled={setDisabled}
+                            save={handleSavingAddress}
+                        />
+
                         {isLoading ? (
                             <Loading/>
                         ) : (

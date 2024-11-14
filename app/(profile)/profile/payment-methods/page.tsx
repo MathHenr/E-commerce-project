@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button"
 import { Sidebar } from "@/app/(profile)/components/sidebar";
 import { Loading } from "@/components/loading";
 import { Nav } from "@/app/(profile)/components/nav";
-import { Username } from "@/app/(profile)/components/username";
 import { Card } from "@/app/(profile)/components/credit-card";
+import { ProfileHeader } from "@/app/(profile)/components/profile-header";
 import {
     Select,
     SelectContent,
@@ -81,27 +81,10 @@ export default function Page () {
                 <div className="h-full px-4 py-2">
                     <section className="bg-zinc-100 h-full rounded-md shadow-[7px_-3px_35px_-24px_rgba(0,0,0,0.75)] p-6 flex flex-col gap-10">
                         {/* profile header */}
-                        <div className="w-full flex items-center justify-between">
-                            <Username firstName={user?.firstName} lastName={user?.lastName} />
-                            
-                            {disabled ? (
-                                <Button
-                                    variant="change"
-                                    onClick={() => handleEdit()}
-                                >
-                                    <Pencil />
-                                    Edit
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="change"
-                                    onClick={() => handleEdit()}
-                                >
-                                    <Save />
-                                    Save changes
-                                </Button>
-                            )}
-                        </div>
+                        <ProfileHeader 
+                            disabled
+                            setDisabled={setDisabled}
+                        />
                         
                         {isLoading ? (
                             <Loading />

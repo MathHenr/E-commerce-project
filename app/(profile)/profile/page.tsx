@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hook/useAuth";
-import { Eye, EyeClosed, Mail, Pencil, Save } from "lucide-react";
+import { Eye, EyeClosed, Mail, Pencil } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Loading } from "@/components/loading";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
+import { ProfileHeader } from "@/app/(profile)/components/profile-header";
 
-import { Username } from "../components/username";
 
 export default function Page () {
     const { user } = useAuth()
@@ -31,10 +31,6 @@ export default function Page () {
         fillInputWithData()
     })
     
-    function handleEdit () {
-        disabled ? setDisabled(false) : setDisabled(true)
-    }
-    
     return (
         <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-12">
             <div className="hidden md:grid col-span-1">
@@ -49,28 +45,11 @@ export default function Page () {
                             <Loading />
                         ) : (
                             <>
-                                {/* profile header */}
-                                <div className="w-full flex items-center justify-between">
-                                    <Username firstName={user?.firstName} lastName={user?.lastName} />
-                                    
-                                    { disabled ? (
-                                        <Button
-                                            variant="change"
-                                            onClick={() => handleEdit()}
-                                        >
-                                            <Pencil />
-                                            Edit
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            variant="change"
-                                            onClick={() => handleEdit()}
-                                        >
-                                            <Save />
-                                            Save changes
-                                        </Button>
-                                        )}
-                                </div>
+                                <ProfileHeader 
+                                    disabled
+                                    setDisabled={setDisabled}
+                                />
+                                
                                 {/* profile form */}
                                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="col-span-1 w-full flex flex-col gap-8">
