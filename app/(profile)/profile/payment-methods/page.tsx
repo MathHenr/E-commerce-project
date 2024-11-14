@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hook/useAuth";
-import { Pencil, Save } from "lucide-react";
+import { CirclePlus, Pencil, Save } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
-import { Nav } from "@/app/(profile)/components/nav";
+
 import { Sidebar } from "@/app/(profile)/components/sidebar";
 import { Loading } from "@/components/loading";
-
+import { Nav } from "@/app/(profile)/components/nav";
 import { Username } from "../../components/username";
 import { Card } from "@/app/(profile)/components/credit-card";
 
@@ -28,6 +29,10 @@ export default function Page () {
 
     function handleEdit () {
         disabled ? setDisabled(false) : setDisabled(true)
+    }
+
+    function flipCard () {
+        return isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)
     }
     
     return (
@@ -67,11 +72,61 @@ export default function Page () {
                         ) : (
                             <section className="grid grid-cols-1 lg:grid-cols-2">
                                 <Card flip={isFrontSide}/>
-                                <div className="flex items-center justify-center">
+                                <div className="col-span-1 flex flex-col gap-3 items-center justify-center">
+                                    <div className="w-4/5 flex gap-3">
+                                        <label className="w-full">
+                                            <h1 className="text-base font-medium antialiased">
+                                                Card Holder
+                                            </h1>
+                                            <Input
+                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
+                                                placeholder:text-black/65 text-black text-base"
+                                                placeholder="Insert card holder name here..."
+                                            />
+                                        </label>
+
+                                        <label className="w-3/5">
+                                            <h1 className="text-base font-medium antialiased">
+                                                Expiration Date
+                                            </h1>
+                                            <Input
+                                                className="bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
+                                                placeholder:text-black/65 placeholder:text-sm text-black text-base"
+                                                placeholder="Insert your card expiration date here..."
+                                            />
+                                        </label>
+                                    </div>
+
+                                    <div className="w-4/5 flex gap-3">
+                                        <label className="w-full">
+                                            <h1 className="text-base font-medium antialiased">
+                                                Card Number
+                                            </h1>
+                                            <Input
+                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
+                                                placeholder:text-black/65 text-black text-base"
+                                                placeholder="Insert card holder name here..."
+                                            />
+                                        </label>
+
+                                        <label className="w-3/5">
+                                            <h1 className="text-base font-medium antialiased">
+                                                CVV/CVC
+                                            </h1>
+                                            <Input
+                                                className="bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
+                                                placeholder:text-black/65 placeholder:text-sm text-black text-base"
+                                                placeholder="Insert your card expiration date here..."
+                                            />
+                                        </label>
+                                    </div>
+                                    
                                     <Button
+                                        className="mt-12"
                                         onClick={() => isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)}
                                     >
-                                        switch
+                                        <CirclePlus />
+                                        Add card
                                     </Button>
                                 </div>
                             </section>
