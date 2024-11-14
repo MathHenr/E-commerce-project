@@ -68,6 +68,10 @@ body {
     filter: invert(100%) sepia(3%) saturate(2%) hue-rotate(153deg) brightness(112%) contrast(100%);
   }
 
+  .bg-gradient-radial {
+    background: radial-gradient(circle at 50% -20%, #505050, #4a4a4a, #454544, #3f3f3f, #3a3a39, #343533, #2f2f2e, #2a2a28, #252523, #21201e, #1c1b18, #181613);
+  }
+
   @keyframes translateX {
     from {
       transform: translateX(-300px);

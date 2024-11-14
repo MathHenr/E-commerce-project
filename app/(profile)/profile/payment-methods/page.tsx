@@ -2,20 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hook/useAuth";
-import { Mail, Pencil, Save } from "lucide-react";
+import { Pencil, Save } from "lucide-react";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import { Nav } from "@/app/(profile)/components/nav";
 import { Sidebar } from "@/app/(profile)/components/sidebar";
+import { Loading } from "@/components/loading";
 
 import { Username } from "../../components/username";
-import { Loading } from "@/components/loading";
+import { Card } from "@/app/(profile)/components/credit-card";
 
 export default function Page () {
     const { user } = useAuth()
     const [disabled, setDisabled] = useState(true)
     const [isLoading, setIsLoading] = useState(true)
+    const [isFrontSide, setIsFrontSide] = useState(false) // set sides of credit card component
 
     useEffect(() => {
         async function load () {
@@ -64,113 +65,16 @@ export default function Page () {
                         {isLoading ? (
                             <Loading />
                         ) : (
-                            <>
-                            {/* profile form */}
-                                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="col-span-1 w-full flex flex-col gap-8">
-                                            <span>
-                                                <p>
-                                                    First Name
-                                                </p>
-                                                <Input 
-                                                    className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                    placeholder:text-black 
-                                                    text-black text-base"
-                                                    disabled={disabled}
-                                                    placeholder="Seu nome esta aqui"
-                                                />
-                                            </span>
-
-                                        <span>
-                                            <p>
-                                                Last Name
-                                            </p>
-                                            <Input 
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Seu nome esta aqui"
-                                            />
-                                        </span>
-
-                                        <span>
-                                            <p>
-                                                CPF
-                                            </p>
-                                            <Input 
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Seu nome esta aqui"
-                                            />
-                                        </span>
-                                    </div>
-
-                                    <div className="col-span-1 w-full flex flex-col gap-8">
-                                        <span>
-                                            <p>
-                                                Password
-                                            </p>
-                                            <Input
-                                                type="password"
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Seu nome esta aqui"
-                                            />
-                                        </span>
-
-                                        <span>
-                                            <p>
-                                                New Password
-                                            </p>
-                                            <Input 
-                                                type="password"
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Seu nome esta aqui"
-                                            />
-                                        </span>
-
-                                        <span>
-                                            <p>
-                                                Confirm New Password
-                                            </p>
-                                            <Input 
-                                                type="password"
-                                                className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
-                                                disabled={disabled}
-                                                placeholder="Seu nome esta aqui"
-                                            />
-                                        </span>
-
-                                    </div>
-                                </div>
-                                {/* profile email */}
-                                <div className=" w-full flex items-center justify-start gap-3">
-                                    <div className="size-[50px] flex items-center justify-center rounded-full bg-blue-500/65">
-                                        <Mail className="text-slate-200/95"/>
-                                    </div>
-                                    <span>
-                                        {user?.email}
-                                    </span>
-                                </div>
-                                <slot>
+                            <section className="grid grid-cols-1 lg:grid-cols-2">
+                                <Card flip={isFrontSide}/>
+                                <div>
                                     <Button
-                                        variant="change"
+                                        onClick={() => isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)}
                                     >
-                                        <Pencil />
-                                        Edit email
+                                        switch
                                     </Button>
-                                </slot>
-                            </>
+                                </div>
+                            </section>
                         )}
                     </section>
                 </div>
