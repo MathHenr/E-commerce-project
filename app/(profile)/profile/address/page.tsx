@@ -154,7 +154,7 @@ export default function Page () {
                             
                             {disabled ? (
                                 <Button
-                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    variant="change"
                                     onClick={() => handleEdit()}
                                 >
                                     <Pencil />
@@ -162,7 +162,7 @@ export default function Page () {
                                 </Button>
                             ) : (
                                 <Button
-                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                    variant="change"
                                     onClick={() => handleSavingAddress()}
                                 >
                                     <Save />
@@ -195,7 +195,7 @@ export default function Page () {
                                                     value={cep.replace(/(\d{5})(\d{3})/, '$1-$2')}
                                                 />
                                                 <Button
-                                                    className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                                    variant="change"
                                                     onClick={() => handleSearchCep()}
                                                 >
                                                     Search CEP
@@ -308,7 +308,7 @@ export default function Page () {
                                 </div>
                                 <slot>
                                     <Button
-                                        className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                        variant="change"
                                     >
                                         <Pencil />
                                         Edit email

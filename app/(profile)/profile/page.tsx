@@ -55,7 +55,7 @@ export default function Page () {
                                     
                                     { disabled ? (
                                         <Button
-                                            className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                            variant="change"
                                             onClick={() => handleEdit()}
                                         >
                                             <Pencil />
@@ -63,7 +63,7 @@ export default function Page () {
                                         </Button>
                                     ) : (
                                         <Button
-                                            className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                            variant="change"
                                             onClick={() => handleEdit()}
                                         >
                                             <Save />
@@ -124,7 +124,8 @@ export default function Page () {
                                                             : ''}
                                                 />
                                                 <Button
-                                                    className="w-auto rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                                    className="w-auto px-4"
+                                                    variant="change"
                                                     onClick={() => isEyeClosed ? setIsEyeClosed(false) : setIsEyeClosed(true)}
                                                 >
                                                     {isEyeClosed ? (
@@ -193,7 +194,7 @@ export default function Page () {
                                 </div>
                                 <slot>
                                     <Button
-                                        className="w-auto px-8 rounded-md bg-slate-400/40 text-slate-900/65 font-semibold border-2 hover:text-slate-50 border-slate-600/95 transition-all ease-linear"
+                                        variant="change"
                                     >
                                         <Pencil />
                                         Edit email
