@@ -67,7 +67,7 @@ export default function Page () {
                         ) : (
                             <section className="grid grid-cols-1 lg:grid-cols-2">
                                 <Card flip={isFrontSide}/>
-                                <div>
+                                <div className="flex items-center justify-center">
                                     <Button
                                         onClick={() => isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)}
                                     >

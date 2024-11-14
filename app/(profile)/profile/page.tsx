@@ -80,8 +80,7 @@ export default function Page () {
                                             </p>
                                             <Input 
                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
+                                                placeholder:text-black text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
                                                 value={user 
@@ -96,8 +95,7 @@ export default function Page () {
                                             </p>
                                             <Input 
                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
+                                                placeholder:text-black text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
                                                 value={user
@@ -113,8 +111,7 @@ export default function Page () {
                                             <div className="flex items-center gap-2">
                                                 <Input 
                                                     className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                    placeholder:text-black 
-                                                    text-black text-base"
+                                                    placeholder:text-black text-black text-base"
                                                     disabled={disabled}
                                                     placeholder="Insert your info here..."
                                                     value={user && isEyeClosed 
@@ -146,8 +143,7 @@ export default function Page () {
                                             <Input
                                                 type="password"
                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
+                                                placeholder:text-black text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
                                             />
@@ -160,8 +156,7 @@ export default function Page () {
                                             <Input 
                                                 type="password"
                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
+                                                placeholder:text-black text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
                                             />
@@ -174,8 +169,7 @@ export default function Page () {
                                             <Input 
                                                 type="password"
                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                                                placeholder:text-black 
-                                                text-black text-base"
+                                                placeholder:text-black text-black text-base"
                                                 disabled={disabled}
                                                 placeholder="Insert your info here..."
                                             />
