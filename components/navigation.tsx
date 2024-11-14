@@ -63,7 +63,7 @@ export const Navigation = () => {
     useEffect(() => {
         async function getUser () {
             if (!user) {
-                throw new Error("User data was not found.")
+                return null
             }
 
             setFirstName(user.firstName)
