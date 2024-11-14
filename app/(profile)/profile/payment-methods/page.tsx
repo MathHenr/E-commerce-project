@@ -58,10 +58,6 @@ export default function Page () {
         load()
     })
 
-    function handleEdit () {
-        // disabled ? setDisabled(false) : setDisabled(true)
-    }
-
     function flipCard () {
         return isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)
     }
