@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hook/useAuth";
-import { CirclePlus, Pencil, Save } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -22,15 +22,14 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
     Form,
     FormField,
     FormLabel,
     FormMessage,
     FormItem
-} from "@/components/ui/form"
-
+} from "@/components/ui/form";
 
 const FormSchema = z.object({
     card_provider: z.string({ required_error: "Please select your card provider." }),
@@ -46,6 +45,12 @@ export default function Page () {
     const [isLoading, setIsLoading] = useState(true)
     const [isFrontSide, setIsFrontSide] = useState(false) // set sides of credit card component
 
+    const [cardHolder, setCardHolder] = useState('')
+    const [cardNumber, setCardNumber] = useState('')
+    const [expiration, setExpiration] = useState('')
+    const [cardCVV, setCardCVV] = useState('')
+    const [cardProvider, setCardProvider] = useState('')
+    
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
@@ -59,10 +64,11 @@ export default function Page () {
     })
 
     function flipCard () {
-        return isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)
+        return setIsFrontSide(true)
     }
 
     function onSubmit (data: z.infer<typeof FormSchema>) {
+        setCardProvider(data.card_provider)
         console.log(data)
     }
     
@@ -86,7 +92,14 @@ export default function Page () {
                             <Loading />
                         ) : (
                             <section className="grid grid-cols-1 lg:grid-cols-2">
-                                <Card flip={isFrontSide}/>
+                                <Card 
+                                    flip={isFrontSide}
+                                    card_holder={cardHolder}
+                                    card_number={cardNumber}
+                                    card_provider={cardProvider}
+                                    cvv={cardCVV}
+                                    expiration={expiration}
+                                />
                                 
                                 <div className="col-span-1 flex flex-col gap-3 items-center justify-center">
 
@@ -98,7 +111,7 @@ export default function Page () {
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormLabel className="w-4/5">
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <Select disabled={disabled} onValueChange={field.onChange} defaultValue={field.value}>
                                                             <SelectTrigger>
                                                                 <SelectValue placeholder="Select your card provider." />
                                                             </SelectTrigger>
@@ -130,15 +143,18 @@ export default function Page () {
                                                 control={form.control}
                                                 name="card_holder"
                                                 render={({ field }) => (
-                                                    <FormItem className="w-full">
+                                                    <FormItem className="w-full" onChange={field.onChange}>
                                                         <FormLabel>
                                                             <h1 className="text-base font-medium antialiased">
                                                                 {"Cardholder's name"}
                                                             </h1>
                                                             <Input
+                                                                disabled={disabled}
                                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                                                 placeholder:text-black/65 text-black text-base"
                                                                 placeholder="Insert card holder name here..."
+                                                                onChange={(e) => setCardHolder(e.target.value)}
+                                                                value={cardHolder}
                                                             />
                                                         </FormLabel>
                                                         <FormMessage className="text-sm text-red-500/90"/>
@@ -149,15 +165,18 @@ export default function Page () {
                                                 control={form.control}
                                                 name="expiration_date"
                                                 render={({ field }) => (
-                                                    <FormItem className="w-2/5">
+                                                    <FormItem className="w-2/5" onChange={field.onChange}>
                                                         <FormLabel>
                                                             <h1 className="text-base font-medium antialiased">
                                                                 Expiration Date
                                                             </h1>
                                                             <Input
+                                                                disabled={disabled}
                                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                                                 placeholder:text-black/65 text-black text-base"
                                                                 placeholder="Insert card holder name here..."
+                                                                onChange={(e) => setExpiration(e.target.value)}
+                                                                value={expiration}
                                                             />
                                                         </FormLabel>
                                                         <FormMessage className="text-sm text-red-500/90"/>
@@ -170,15 +189,18 @@ export default function Page () {
                                                 control={form.control}
                                                 name="card_number"
                                                 render={({ field }) => (
-                                                    <FormItem className="w-full">
+                                                    <FormItem className="w-full" onChange={field.onChange}>
                                                         <FormLabel>
                                                             <h1 className="text-base font-medium antialiased">
                                                                 Card Number
                                                             </h1>
                                                             <Input
+                                                                disabled={disabled}
                                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                                                 placeholder:text-black/65 text-black text-base"
                                                                 placeholder="Insert card holder name here..."
+                                                                onChange={(e) => setCardNumber(e.target.value)}
+                                                                value={cardNumber.replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, `$1-$2-$3-$4`)}
                                                             />
                                                         </FormLabel>
                                                         <FormMessage className="text-sm text-red-500/90"/>
@@ -189,15 +211,21 @@ export default function Page () {
                                                 control={form.control}
                                                 name="cvv"
                                                 render={({ field }) => (
-                                                    <FormItem className="w-2/5">
+                                                    <FormItem className="w-2/5" onChange={field.onChange}>
                                                         <FormLabel>
                                                             <h1 className="text-base font-medium antialiased">
                                                                 CVV/CVC
                                                             </h1>
                                                             <Input
+                                                                disabled={disabled}
                                                                 className="w-full bg-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0
                                                                 placeholder:text-black/65 text-black text-base"
                                                                 placeholder="Insert card holder name here..."
+                                                                onChange={(e) => {
+                                                                    flipCard()
+                                                                    setCardCVV(e.target.value)
+                                                                }}
+                                                                value={cardCVV}
                                                             />
                                                         </FormLabel>
                                                         <FormMessage className="text-sm text-red-500/90"/>
@@ -206,8 +234,9 @@ export default function Page () {
                                             />
                                         </div>
                                         <Button
+                                            type="submit"
                                             className="mx-auto mt-12"
-                                            onClick={() => isFrontSide ? setIsFrontSide(false) : setIsFrontSide(true)}
+                                            onClick={() => setIsFrontSide(false)}
                                         >
                                             <CirclePlus />
                                             Add card

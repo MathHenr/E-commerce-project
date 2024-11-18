@@ -28,12 +28,30 @@ export const addressTable = pgTable("address", {
     number: integer(),
 })
 
-export const userRelations = relations(usersTable, ({ one }) => ({
-    addressTable: one(addressTable)
+export const paymentTable = pgTable("payment", {
+    id:integer().primaryKey().generatedAlwaysAsIdentity(),
+    customerId: integer("customer_id").notNull(),
+    cardHolder: varchar("card_holder").notNull(),
+    cardNumber: varchar("card_number", { length: 16 }).notNull(),
+    cardProvider: varchar("card_provider").notNull(),
+    cardExpiration: varchar("card_expiration").notNull(),
+})
+
+export const userRelations = relations(usersTable, ({ one, many }) => ({
+    addressTable: one(addressTable),
+    paymentTable: many(paymentTable)
 }))
+
 export const addressRelations = relations(addressTable, ({ one }) => ({
     usersTable: one(usersTable, {
         fields: [addressTable.customerId],
+        references: [usersTable.id],
+    })
+}))
+
+export const paymentRelations = relations(paymentTable, ({ one }) => ({
+    usersTable: one(usersTable, {
+        fields: [paymentTable.customerId],
         references: [usersTable.id],
     })
 }))

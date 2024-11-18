@@ -1,11 +1,23 @@
-import { faCcMastercard } from "@fortawesome/free-brands-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Image from "next/image"
+
 
 interface CardProps {
-    flip: boolean
+    flip: boolean;
+    card_number?: string;
+    card_holder?: string;
+    expiration?: string;
+    card_provider?: string;
+    cvv?: string;
 }
 
-export const Card = ({ flip }: CardProps) => {
+export const Card = ({ 
+    flip,
+    card_holder,
+    card_number,
+    expiration,
+    card_provider,
+    cvv,
+}: CardProps) => {
     return (
         <div
             className="col-span-1 p-4 inline-flex lg:justify-end justify-center"
@@ -28,13 +40,13 @@ export const Card = ({ flip }: CardProps) => {
                             <span
                                 className="text-slate-50 flex flex-col"
                             >
-                                <p>
-                                    Card Serial
+                                <p className="text-sm">
+                                    Card Number
                                 </p>
                                 <p
                                     className="sm:text-2xl text-lg font-medium"
                                 >
-                                    0000 0000 0000 0001
+                                    {card_number}
                                 </p>
                             </span>
 
@@ -42,12 +54,16 @@ export const Card = ({ flip }: CardProps) => {
                                 className="text-slate-50 flex justify-between items-center gap-4"
                             >
                                 <p>
-                                    Card Holder
+                                    {card_holder}
                                 </p>
                                 <p>
-                                    01/90
+                                    {expiration}
                                 </p>
-                                <FontAwesomeIcon icon={faCcMastercard} size="2xl"/>
+                                { card_provider ? (
+                                    <Image height={48} width={48} src={`/card-providers/${card_provider}_logo.svg`} alt="Card"/>
+                                ) : (
+                                    <></>
+                                ) }
                             </span>
                         </div>
                     </div>
@@ -65,7 +81,7 @@ export const Card = ({ flip }: CardProps) => {
                                 <p
                                     className="text-slate-900 text-sm text-end"
                                 >
-                                    250
+                                    {cvv}
                                 </p>
                             </div>
                         </div>
