@@ -4,8 +4,7 @@ import { FormEvent, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { Validation } from "@/lib/sign-up-validation"
-import { createUser } from "@/feature/users/create-user"
+import { UserValidationServiceFunction } from "@/feature/users/services/UserValidationService"
 import { toast } from "sonner"
 
 import { Swicth } from "../components/swicth"
@@ -47,48 +46,46 @@ export default function Page () {
     function verifyPasswords () {
         return password === confirmPassword
     }
+    
     function redirectUser (message: string) {
         toast.success(message) 
         router.push("/profile")
     }
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
-        event.preventDefault()
+        event.preventDefault();
         fields.map((field) => {
             if (field?.var.length === 0) {
                 toast.error(`Please fill out the ${field.name} field`, {
                     duration: 5000
-                })
-                throw new Error("Empty fields")
+                });
+                throw new Error("Empty fields");
             }
-        })
+        });
         // verify if passwords match
         if (!verifyPasswords()) {
             toast.error("Passwords don't match, please fix it", {
                 duration: 5000,
-            })
-            return null
+            });
+            return null;
         }
         // validating user's data
-        const formData = new Validation(
-            firstName,
-            lastName,
-            email,
-            cpf,
-            password
-        )
-        const userData = formData.validate()
-        // render a error message on screen if exist one
-        if (userData.success === false) {
-            toast.error(userData.error_message)
+        const response = await UserValidationServiceFunction(
+            {
+                firstName,
+                lastName,
+                email,
+                cpf,
+                password,
+            }
+        );
+
+        if (typeof response === 'string') {
+            toast.error(response);
             return null
         }
-        // Create user in DB
-        const user = await createUser(userData.schema)
-
-        user.success ? redirectUser(user.message) : toast.error(user.message, { duration: 5000, })
         
-        return
+        return redirectUser("User created successfully.");
     }
     
     return (
