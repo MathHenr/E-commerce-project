@@ -1,13 +1,14 @@
 import { drizzle } from "drizzle-orm/node-postgres"
 
-import { UserInput } from "@/feature/users/validators/UserValidator" 
 import { usersTable } from "@/db/schema"
 import { createSession } from "@/lib/session"
+
+import type { UserInput } from "@/feature/users/validators/UserValidator" 
 
 const db = drizzle(process.env.DATABASE_URL!)
 
 interface IUserRegistrationService {
-    insert(data: UserInput): void;
+    insert(data: UserInput): Promise<boolean>;
 }
 
 export class UserRegistrationService implements IUserRegistrationService {

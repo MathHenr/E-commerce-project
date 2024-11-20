@@ -5,8 +5,10 @@ import { useAuth } from "@/hook/useAuth";
 import { Mail, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Address, CEP } from "@/lib/cep-api";
-import { AddressSchema, createAdress } from "@/feature/users/create-address";
+import { CEP } from "@/feature/profile/validators/AddressValidator";
+import { AddressValidatorServiceFunction } from "@/feature/profile/services/AddressValidatorService";
+
+import type { IAddressValidation } from "@/feature/profile/services/AddressValidatorService";
 
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -21,23 +23,14 @@ export default function Page () {
     const [disabled, setDisabled] = useState(true)
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
-    const [userWrote, setUserWrote] = useState(false)
+    const [changeByUser, setChangeByUser] = useState(false)
     
-    const [houseNumber, setHouseNumber] = useState(0)
     const [cep, setCep] = useState('')
     const [street, setStreet] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
-    
-    const inputs = {
-        cep,
-        street,
-        city,
-        state,
-        neighborhood,
-        number: houseNumber
-    }
+    const [houseNumber, setHouseNumber] = useState('')
     
     useEffect (() => {
         async function load () {
@@ -48,14 +41,14 @@ export default function Page () {
                 setState(user.addressTable.state)
                 setStreet(user.addressTable.street)
                 setNeighborhood(user.addressTable.neighborhood)
-                setHouseNumber(user.addressTable.number!)
+                setHouseNumber(user.addressTable.number!.toString())
             }
             setIsLoading(false)
         }
         load()
     }, [user])
     
-    function setValuesCep (data: Address): void {
+    function setValuesCep (data: IAddressValidation): void {
         setCep(data.cep)
         setCity(data.city)
         setState(data.state)
@@ -64,74 +57,55 @@ export default function Page () {
         return
     }
     
-    async function handleSearchCep () {
+    async function handleSearchCep (): Promise<void> {
         setError('')
-        const response = new CEP(cep)  
-        const userCEP = await response.getCep()
-        typeof userCEP === 'string'
-            ? setError(userCEP)
-            : setValuesCep(userCEP)
+        const newCep = new CEP()  
+
+        if (!await newCep.fetchCEP(cep)) {
+            setError(newCep.error!)
+            return
+        }
+
+        setValuesCep(newCep.address!)
+
         return
     }
     
-    async function handleSavingAddress () {
-        if (houseNumber === 0) {
-           toast.error("Insert your house number.")
-           return null
+    async function handleSavingAddress (): Promise<boolean> {
+        if (!validateHouseNumber() || validateHouseNumber() === undefined) {
+           toast.error("Insert your house number.");
+           return false;
         }
 
-        if (userWrote) {
-            try {
-                verifyInputsValue()
-            } catch (error) {
-                if (error instanceof Error) {
-                    toast.error(error.message)
-                }
-            }
-        }
-
-        const values: Address | null = {
+        const number = Number.parseInt(houseNumber);
+        
+        const values: IAddressValidation | null = {
             cep,
             street,
             city,
             state,
             neighborhood,
+            number,
+        };
+        
+        const newCep = await AddressValidatorServiceFunction(values);
+        if (typeof newCep === 'string') {
+            toast.error(newCep);
+            return false;
+        }
+
+        toast.success("Address register successfully.");
+        
+        setDisabled(true);
+        return true;
+    }
+
+    function validateHouseNumber (): boolean {
+        if (!Number.parseInt(houseNumber)){
+            return false
         }
         
-        if (user === null || values === null) {
-            toast.error("Input is missing.")
-            return null
-        }
-
-        const addressToInsert = {
-            ...values,
-            customerId: 0,
-            number: houseNumber,
-        }
-
-        try {
-            await createAdress(addressToInsert, user)
-            toast.success("Address successfully saved!")
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message)
-            }
-            return null
-        }
-        setDisabled(true)
-        return null
-    }
-    
-    function verifyInputsValue () {
-        for (const key in inputs) {
-            if (inputs.hasOwnProperty(key)) {
-                const value = inputs[key as keyof AddressSchema]
-                if (!value) {
-                    toast.error(`${key} input is missing.`)
-                    throw new Error(`${key} input is missing.`)
-                }
-            }
-        }
+        return Number(houseNumber) > 0
     }
     
     return (
@@ -170,8 +144,7 @@ export default function Page () {
                                                     disabled={disabled}
                                                     placeholder={error ? error : "Insert your cep here..."}
                                                     onChange={(e) => {
-                                                        setUserWrote(true)
-                                                        setCep(e.target.value)
+                                                        setCep(e.target.value);
                                                     }}
                                                     value={cep.replace(/(\d{5})(\d{3})/, '$1-$2')}
                                                 />
@@ -195,7 +168,7 @@ export default function Page () {
                                                 disabled={disabled}
                                                 placeholder="Insert your street here..."
                                                 onChange={(e) => {
-                                                    setUserWrote(true)
+                                                    setChangeByUser(true)
                                                     setStreet(e.target.value)
                                                 }}
                                                 value={street}
@@ -213,7 +186,7 @@ export default function Page () {
                                                 disabled={disabled}
                                                 placeholder="Insert your city here..."
                                                 onChange={(e) => {
-                                                    setUserWrote(true)
+                                                    setChangeByUser(true)
                                                     setCity(e.target.value)
                                                 }}
                                                 value={city}
@@ -233,7 +206,7 @@ export default function Page () {
                                                 disabled={disabled}
                                                 placeholder="Insert your state here..."
                                                 onChange={(e) => {
-                                                    setUserWrote(true)
+                                                    setChangeByUser(true)
                                                     setState(e.target.value)
                                                 }}
                                                 value={state}
@@ -251,7 +224,7 @@ export default function Page () {
                                                 disabled={disabled}
                                                 placeholder="Insert your neighborhood here..."
                                                 onChange={(e) => {
-                                                    setUserWrote(true)
+                                                    setChangeByUser(true)
                                                     setNeighborhood(e.target.value)
                                                 }}
                                                 value={neighborhood}
@@ -269,8 +242,7 @@ export default function Page () {
                                                 disabled={disabled}
                                                 placeholder="Insert your house number here..."
                                                 onChange={(e) => {
-                                                    setUserWrote(true)
-                                                    setHouseNumber(Number(e.target.value))
+                                                    setHouseNumber(e.target.value)
                                                 }}
                                                 value={houseNumber}
                                             />

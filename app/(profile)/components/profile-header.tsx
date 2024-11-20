@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 interface ProfileHeaderProps {
     disabled: boolean;
     setDisabled: Dispatch<SetStateAction<boolean>>
-    save?: () => Promise<null>;
+    save?: () => Promise<boolean>;
 }
 
 export const ProfileHeader = ({ 
