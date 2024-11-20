@@ -1,4 +1,4 @@
-import type { IAddressValidation } from "@/feature/profile/services/AddressValidatorService";
+import type { IAddressValidation } from "@/feature/profile/address/services/AddressValidatorService";
 
 export class CEP {
     private readonly apiUrl: string = "https://brasilapi.com.br/api/cep/v1/";

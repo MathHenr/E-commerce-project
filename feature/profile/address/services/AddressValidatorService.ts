@@ -1,8 +1,8 @@
 "use server";
 
-import { CEP } from "@/feature/profile/validators/AddressValidator";
-import { getSession } from "@/feature/profile/services/GetUserCookieService";
-import { AddressRegistrationFunction } from "@/feature/profile/services/AddressRegistrationService";
+import { CEP } from "@/feature/profile/address/validators/AddressValidator";
+import { getSession } from "@/feature/profile/GetUserCookieService";
+import { AddressRegistrationFunction } from "@/feature/profile/address/services/AddressRegistrationService";
 
 export interface IAddressValidationAPI {
     cep: string,

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import * as schema from "@/db/schema";
 import { usersTable, addressTable } from "@/db/schema";
 
-import type { IAddressValidation, IAddressValidationAPI } from "@/feature/profile/services/AddressValidatorService";
+import type { IAddressValidation, IAddressValidationAPI } from "@/feature/profile/address/services/AddressValidatorService";
 
 interface IAddressRegistrationService {
     insert(

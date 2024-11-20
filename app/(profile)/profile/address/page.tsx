@@ -5,10 +5,10 @@ import { useAuth } from "@/hook/useAuth";
 import { Mail, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { CEP } from "@/feature/profile/validators/AddressValidator";
-import { AddressValidatorServiceFunction } from "@/feature/profile/services/AddressValidatorService";
+import { CEP } from "@/feature/profile/address/validators/AddressValidator";
+import { AddressValidatorServiceFunction } from "@/feature/profile/address/services/AddressValidatorService";
 
-import type { IAddressValidation } from "@/feature/profile/services/AddressValidatorService";
+import type { IAddressValidation } from "@/feature/profile/address/services/AddressValidatorService";
 
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
