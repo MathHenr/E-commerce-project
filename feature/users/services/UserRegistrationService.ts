@@ -1,22 +1,34 @@
 import { drizzle } from "drizzle-orm/node-postgres"
-
+import { or, eq } from "drizzle-orm"
 import { usersTable } from "@/db/schema"
 import { createSession } from "@/lib/session"
 
 import type { UserInput } from "@/feature/users/validators/UserValidator" 
 
-const db = drizzle(process.env.DATABASE_URL!)
+const db = drizzle(process.env.DATABASE_URL!);
 
 interface IUserRegistrationService {
     insert(data: UserInput): Promise<boolean>;
 }
 
 export class UserRegistrationService implements IUserRegistrationService {
-    async insert(data: UserInput) {
+    public error: string | undefined;
+    
+    async insert(data: UserInput): Promise<boolean> {
         try {
             data.cpf = data.cpf.replace(/\D/g,'');
+
+            const userExist = await db.select().from(usersTable).where(
+                or(
+                    eq(usersTable.cpf, data.cpf),
+                    eq(usersTable.email, data.email),
+                )
+            )
+
+            if (userExist.length > 0) {
+                throw new Error("Email or CPF already exist in your database.");
+            }
             
-            // No need to check cpf or email, drizzle throw an error if those alredy exist in DB!
             const user = await db.insert(usersTable).values(data).returning();
 
             // createa users session when finished register in DB!
@@ -24,7 +36,11 @@ export class UserRegistrationService implements IUserRegistrationService {
 
             return true;
         } catch (error) {
-            throw new Error("Email or CPF already exist in your database.")
+            if (error instanceof Error){
+                this.error = error.message;
+                return false;
+            }
         }
+        return true;
     }
 }

@@ -52,24 +52,26 @@ export default function Page () {
         router.push("/profile")
     }
     
-    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<boolean> {
         event.preventDefault();
         fields.map((field) => {
             if (field?.var.length === 0) {
                 toast.error(`Please fill out the ${field.name} field`, {
                     duration: 5000
                 });
-                throw new Error("Empty fields");
+                throw new ReferenceError();
             }
         });
+        
         // verify if passwords match
         if (!verifyPasswords()) {
             toast.error("Passwords don't match, please fix it", {
                 duration: 5000,
             });
-            return null;
+            return false;
         }
-        // validating user's data
+
+        // validating user's data, return an array -> ex: [false, "Password must have 6 digits."]
         const response = await UserValidationServiceFunction(
             {
                 firstName,
@@ -80,12 +82,13 @@ export default function Page () {
             }
         );
 
-        if (typeof response === 'string') {
-            toast.error(response);
-            return null
+        if (!response[0]) {
+            toast.error(response[1]);
+            return false;
         }
         
-        return redirectUser("User created successfully.");
+        redirectUser("User created successfully.");
+        return true;
     }
     
     return (

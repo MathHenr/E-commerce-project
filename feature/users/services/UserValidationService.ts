@@ -12,8 +12,8 @@ import { UserRegistrationService } from "@/feature/users/services/UserRegistrati
 export async function UserValidationServiceFunction (
     user: UserInput,
 ) {
-    const newUser = new UserValidationService(services, user)
-    return await newUser.register();
+    const newUser = new UserValidationService();
+    return [await newUser.register(services, user), newUser.error];
 }
 
 const services = [
@@ -23,33 +23,29 @@ const services = [
 ];
 
 class UserValidationService {
-    private rules: ValidationRule[];
-    private user: UserInput;
+    public error: string | undefined;
 
-    constructor(
-        rules: ValidationRule[],
-        user: UserInput
-    ){
-        this.rules = rules;
-        this.user = user;
+    private validateInput (rules: ValidationRule[], user: UserInput): boolean {
+        for (const rule of rules) {
+            if (!rule.validate(user)) {
+                this.error = rule.errorMessage();
+                return false;
+            }
+        }
+        return true;
     }
-
-    async register(): Promise<string | void> {
-        for (const rule of this.rules) {
-            if (!rule.validate(this.user)) {
-                return rule.errorMessage();
-            }
+    
+    async register(rules: ValidationRule[], user: UserInput): Promise<boolean> {
+        if(!this.validateInput(rules, user)){
+            return false;
         }
 
-        try {
-            const newUser = new UserRegistrationService()
-            await newUser.insert(this.user) // inserting new user in DB
-        } catch (error) {
-            if (error instanceof Error) {
-                return error.message
-            }
+        const newUser = new UserRegistrationService();
+        if (!await newUser.insert(user)) {
+            this.error = newUser.error;
+            return false;
         }
-        
-        return
+
+        return true;
     }
 }
