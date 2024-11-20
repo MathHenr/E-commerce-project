@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { UserValidationServiceFunction } from "@/feature/users/services/UserValidationService"
+import { UserRegistrationFunction } from "@/feature/users/services/UserValidationService"
 import { toast } from "sonner"
 
 import { Swicth } from "../components/swicth"
@@ -41,7 +41,7 @@ export default function Page () {
         }
 
         // validating user's data, return an array -> ex: [false, "Password must have 6 digits."]
-        const response = await UserValidationServiceFunction(
+        const response = await UserRegistrationFunction(
             {
                 firstName,
                 lastName,

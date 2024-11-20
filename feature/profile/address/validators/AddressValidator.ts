@@ -1,5 +1,17 @@
 import type { IAddressValidation } from "@/feature/profile/address/services/AddressValidatorService";
 
+
+// TYPES
+export interface IAddressUserData {
+    number: number;
+    cep: string;
+    state: string;
+    city: string;
+    neighborhood: string;
+    street: string;
+}
+
+
 export class CEP {
     private readonly apiUrl: string = "https://brasilapi.com.br/api/cep/v1/";
     public error: string | undefined;

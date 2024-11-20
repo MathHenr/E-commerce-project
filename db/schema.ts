@@ -25,7 +25,7 @@ export const addressTable = pgTable("address", {
     city: varchar({ length: 255 }).notNull(),
     neighborhood: varchar({ length: 255 }).notNull(),
     street: varchar({ length: 255 }).notNull(),
-    number: integer(),
+    number: integer().notNull(),
 })
 
 export const paymentTable = pgTable("payment", {
@@ -35,6 +35,7 @@ export const paymentTable = pgTable("payment", {
     cardNumber: varchar("card_number", { length: 16 }).notNull(),
     cardProvider: varchar("card_provider").notNull(),
     cardExpiration: varchar("card_expiration").notNull(),
+    cardCvv: varchar("card_cvv").notNull(),
 })
 
 export const userRelations = relations(usersTable, ({ one, many }) => ({

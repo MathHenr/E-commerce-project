@@ -1,20 +1,66 @@
-import { genSaltSync, hashSync } from "bcrypt-ts";
+import { IAddressUserData } from "@/feature/profile/address/validators/AddressValidator";
+import { genSaltSync, hashSync, compare } from "bcrypt-ts";
+import { IPaymentUserData } from "@/feature/users/services/UserLoginService";
 
+// TYPES
 export interface ValidationRule {
-    validate({}: UserInput): boolean;
+    validate({}: IRegisterInput | ILoginInput): boolean;
     errorMessage(): string;
 }
 
-export interface UserInput {
-    firstName: string;
-    lastName: string;
+export interface ILoginInput {
     email: string;
-    cpf: string;
     password: string;
 }
 
+export interface IRegisterInput extends ILoginInput{
+    firstName: string;
+    lastName: string;
+    cpf: string;
+}
+
+export interface IUserData {
+    firstName: string;
+    lastName: string;
+    cpf: string;
+    email: string;
+    addressTable: IAddressUserData,
+    paymentTable: IPaymentUserData[],
+}
+
+export interface IUserDBResponse {
+    email: string;
+    password: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    cpf: string;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    addressTable: {
+        number: number;
+        id: number;
+        customerId: number;
+        cep: string;
+        state: string;
+        city: string;
+        neighborhood: string;
+        street: string;
+    } | null;
+    paymentTable: {
+        id: number;
+        customerId: number;
+        cardHolder: string;
+        cardNumber: string;
+        cardProvider: string;
+        cardExpiration: string;
+        cardCvv: string;
+    }[];
+}
+
+// FUNCTIONS AND CLASS
 export class CPFValidator implements ValidationRule {
-    validate({ cpf }: UserInput): boolean {
+    validate({ cpf }: IRegisterInput): boolean {
         const _cpf = cpf.replace(/\D/g, '') // remove signs
         
         if (_cpf.length !== 11) return false;
@@ -51,7 +97,7 @@ export class CPFValidator implements ValidationRule {
 }
 
 export class PasswordValidator implements ValidationRule {
-    validate({ password }: UserInput): boolean{
+    validate({ password }: ILoginInput): boolean{
         if (password.length <= 6) {
             return false;
         }
@@ -62,15 +108,20 @@ export class PasswordValidator implements ValidationRule {
         return "Password must have more than 6 digits.";
     }
 }
-
+// function to hash password and save;
 export function hash (password: string): string {
     const salt = genSaltSync(8);
     const hash = hashSync(password, salt);
     return hash;
 }
 
+// function to compare hash password and login;
+export async function compareHash (userPassword: string, dbHash: string): Promise<boolean> {
+    return compare(userPassword, dbHash);
+}
+
 export class EmailValidator implements ValidationRule {
-    validate({ email }: UserInput) {
+    validate({ email }: ILoginInput) {
         const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return mailRegex.test(email)
     }
@@ -80,7 +131,7 @@ export class EmailValidator implements ValidationRule {
 }
 
 export class NameValidator implements ValidationRule {
-    validate({ firstName, lastName }: UserInput): boolean {
+    validate({ firstName, lastName }: IRegisterInput): boolean {
         return firstName.length > 4 && lastName.length > 4;
     }
     errorMessage(): string {

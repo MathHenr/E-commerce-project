@@ -1,34 +1,38 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import { login, logout, User } from '@/feature/users/login-user'
-import { getUserData } from '@/feature/profile/get-user-data'
+import { createContext, useContext, useEffect, useState } from 'react';
+import { UserLoginFunction } from "@/feature/users/services/UserValidationService";
+import { getUserData } from '@/feature/profile/get-user-data';
+import { useRouter } from 'next/navigation';
+
+import type{ IUserData } from '@/feature/users/validators/UserValidator';
 
 interface AuthContextType {
-    user: User | null
-    login: (email: string, password: string) => Promise<void>
-    logout: () => void
+    user: IUserData | null;
+    login: (email: string, password: string) => Promise<boolean>;
+    // logout: () => void
 }
   
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null)
+    const router = useRouter();
+    const [user, setUser] = useState<IUserData | null>(null)
 
-    const handleLogin = async (email: string, password: string): Promise<void> => {
-        try {
-            const loggedInUser = await login(email, password);
-            setUser(loggedInUser)
-            return
-        } catch (error) {
-            throw new Error("Invalid credentials")
+    const handleLogin = async (email: string, password: string): Promise<boolean> => {
+        const loggedInUser = await UserLoginFunction({ email, password });
+        if (loggedInUser[0] === false){
+            throw new Error(loggedInUser[1] as string);
         }
+        setUser(loggedInUser[1] as IUserData);
+        router.push("/");
+        return true;
     };
 
-    const handleLogout = () => {
-        logout();
-        setUser(null);
-    }
+    // const handleLogout = () => {
+    //     logout();
+    //     setUser(null);
+    // }
 
     useEffect(() => {
         async function getUser () {
@@ -38,13 +42,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 return null //No user is logged in
             }
 
-            setUser(userData)
+            setUser(userData as IUserData)
         }
         getUser()
     }, [])
 
     return (
-        <AuthContext.Provider value={{user, login: handleLogin, logout: handleLogout}}>
+        <AuthContext.Provider value={{user, login: handleLogin}}>
             {children}
         </AuthContext.Provider>
     )

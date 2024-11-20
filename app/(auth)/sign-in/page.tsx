@@ -1,63 +1,37 @@
 "use client"
 
-import { FormEvent, useState } from "react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
+import { FormEvent, useState } from "react";
+import Image from "next/image";
+import { signIn } from "next-auth/react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-import { toast } from "sonner"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { toast } from "sonner";
 
-import { useAuth } from "@/hook/useAuth"
-import { Swicth } from "../components/swicth"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useAuth } from "@/hook/useAuth";
+import { Swicth } from "../components/swicth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 
 export default function Page () {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const router = useRouter()
-    const { login } = useAuth()
-
-    const fields = [
-        {
-            name: "Email",
-            var: email,
-        },
-        {
-            name: "Password",
-            var: password,
-        },
-    ] 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { login } = useAuth();
     
-    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void | null> {
-        event.preventDefault()
-        fields.map((field) => {
-            if (field?.var.length === 0) {
-                toast.error(`Please fill out the ${field.name} field`, {
-                    duration: 5000
-                })
-                throw new Error("Empty fields")
-            }
-        })
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<boolean> {
+        event.preventDefault();
+
         try {
-            const loggedInUser = await login(email, password)
-            // render a error message on screen if exist one
-            if (loggedInUser === null) {
-               toast.error("Something went wrong")
-               return null
-            }
-            // Logged in User
-            router.push("/profile")
+            await login(email, password);
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message)
+                return false;
             }
         }
         
-        return
+        return true;
     }
     
     return (

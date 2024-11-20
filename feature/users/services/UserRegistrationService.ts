@@ -3,18 +3,18 @@ import { or, eq } from "drizzle-orm"
 import { usersTable } from "@/db/schema"
 import { createSession } from "@/lib/session"
 
-import type { UserInput } from "@/feature/users/validators/UserValidator" 
+import type { IRegisterInput } from "@/feature/users/validators/UserValidator" 
 
 const db = drizzle(process.env.DATABASE_URL!);
 
 interface IUserRegistrationService {
-    insert(data: UserInput): Promise<boolean>;
+    insert(data: IRegisterInput): Promise<boolean>;
 }
 
 export class UserRegistrationService implements IUserRegistrationService {
     public error: string | undefined;
     
-    async insert(data: UserInput): Promise<boolean> {
+    async insert(data: IRegisterInput): Promise<boolean> {
         try {
             data.cpf = data.cpf.replace(/\D/g,'');
 
