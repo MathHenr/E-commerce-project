@@ -6,6 +6,8 @@ import {
     PasswordValidator,
     CPFValidator,
     EmailValidator,
+    hash,
+    NameValidator,
 } from "@/feature/users/validators/UserValidator"
 import { UserRegistrationService } from "@/feature/users/services/UserRegistrationService";
 
@@ -20,6 +22,7 @@ const services = [
     new PasswordValidator(),
     new CPFValidator(),
     new EmailValidator(),
+    new NameValidator(),
 ];
 
 class UserValidationService {
@@ -39,6 +42,8 @@ class UserValidationService {
         if(!this.validateInput(rules, user)){
             return false;
         }
+
+        user.password = hash(user.password);
 
         const newUser = new UserRegistrationService();
         if (!await newUser.insert(user)) {

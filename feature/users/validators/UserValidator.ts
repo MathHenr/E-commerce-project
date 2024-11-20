@@ -1,3 +1,5 @@
+import { genSaltSync, hashSync } from "bcrypt-ts";
+
 export interface ValidationRule {
     validate({}: UserInput): boolean;
     errorMessage(): string;
@@ -61,6 +63,12 @@ export class PasswordValidator implements ValidationRule {
     }
 }
 
+export function hash (password: string): string {
+    const salt = genSaltSync(8);
+    const hash = hashSync(password, salt);
+    return hash;
+}
+
 export class EmailValidator implements ValidationRule {
     validate({ email }: UserInput) {
         const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -69,4 +77,14 @@ export class EmailValidator implements ValidationRule {
     errorMessage(): string {
         return "Invalid email, plase enter an valid email.";
     }
+}
+
+export class NameValidator implements ValidationRule {
+    validate({ firstName, lastName }: UserInput): boolean {
+        return firstName.length > 4 && lastName.length > 4;
+    }
+    errorMessage(): string {
+        return "Please enter your first and last name correctly.";
+    }
+
 }

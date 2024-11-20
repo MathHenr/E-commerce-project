@@ -19,29 +19,6 @@ export default function Page () {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const router = useRouter()
-
-    const fields = [
-        {
-            name: "First Name",
-            var: firstName,
-        },
-        {
-            name: "Last Name",
-            var: lastName,
-        },
-        {
-            name: "Email",
-            var: email,
-        },
-        {
-            name: "CPF",
-            var: cpf,
-        },
-        {
-            name: "Password",
-            var: password,
-        },
-    ] 
     
     function verifyPasswords () {
         return password === confirmPassword
@@ -54,14 +31,6 @@ export default function Page () {
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<boolean> {
         event.preventDefault();
-        fields.map((field) => {
-            if (field?.var.length === 0) {
-                toast.error(`Please fill out the ${field.name} field`, {
-                    duration: 5000
-                });
-                throw new ReferenceError();
-            }
-        });
         
         // verify if passwords match
         if (!verifyPasswords()) {
