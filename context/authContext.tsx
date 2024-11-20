@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { UserLoginFunction } from "@/feature/users/services/UserValidationService";
-import { getUserData } from '@/feature/profile/get-user-data';
+import { GetUserDataFunction } from '@/feature/profile/GetUserDataService';
 import { useRouter } from 'next/navigation';
 
 import type{ IUserData } from '@/feature/users/validators/UserValidator';
@@ -21,10 +21,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const handleLogin = async (email: string, password: string): Promise<boolean> => {
         const loggedInUser = await UserLoginFunction({ email, password });
-        if (loggedInUser[0] === false){
-            throw new Error(loggedInUser[1] as string);
+        if (!loggedInUser.status){
+            throw new Error(loggedInUser.argument as string);
         }
-        setUser(loggedInUser[1] as IUserData);
+        setUser(loggedInUser.argument as IUserData);
         router.push("/");
         return true;
     };
@@ -36,13 +36,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         async function getUser () {
-            const userData = await getUserData()
+            const userData = await GetUserDataFunction()
 
-            if (!userData) {
-                return null //No user is logged in
+            if (!userData.status) {
+                return false
             }
 
-            setUser(userData as IUserData)
+            setUser(userData.argument as IUserData)
         }
         getUser()
     }, [])

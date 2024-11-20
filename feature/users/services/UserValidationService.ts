@@ -20,21 +20,39 @@ interface IUserValidationService {
     login(rules: ValidationRule[], user: ILoginInput): Promise<boolean>;
 }
 
+// TYPES
+export interface IUserLoginFunction {
+    status: boolean;
+    argument: IUserData | string;
+}
+
+export interface IUserRegistrationFunction {
+    status: boolean;
+    argument: string | undefined;
+}
+
 // Function to register a new user;
 export async function UserRegistrationFunction (
     user: IRegisterInput,
-): Promise<(string | boolean | undefined)[]> {
+): Promise<IUserRegistrationFunction> {
     const newUser = new UserValidationService();
-    return [await newUser.register(registerServices, user), newUser.error];
+    const isRegsiter = await newUser.register(registerServices, user)
+    if (!isRegsiter) {
+        return { status: isRegsiter, argument: newUser.error!};
+    }
+    return { status: isRegsiter, argument: undefined};
 }
 
 // Function to login a user;
 export async function UserLoginFunction (
     user: ILoginInput,
-) {
+): Promise<IUserLoginFunction> {
     const aUser = new UserValidationService();
-    const argument = await aUser.login(loginServices, user);
-    return [argument, argument ? aUser.user! : aUser.error!];
+    const dbRetunr = await aUser.login(loginServices, user);
+    if (!dbRetunr) {
+        return { status: dbRetunr, argument: aUser.error! };
+    }
+    return { status: dbRetunr, argument: aUser.user!};
 }
 
 const registerServices = [

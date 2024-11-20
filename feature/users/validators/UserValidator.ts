@@ -139,3 +139,34 @@ export class NameValidator implements ValidationRule {
     }
 
 }
+
+// handling to put user data format correctly;
+export function FormatUserData (user: IUserDBResponse): IUserData | string | false {
+    const { firstName, lastName, cpf, email } = user;
+    const { number, cep, city, state, street, neighborhood } = user.addressTable!;
+
+    try{
+        const userData = {
+            firstName,
+            lastName,
+            cpf,
+            email,
+            addressTable: {
+                number,
+                cep,
+                city,
+                state,
+                street,
+                neighborhood,
+            },
+            paymentTable: user.paymentTable,
+        };
+
+        return userData;
+    } catch (error) {
+        if (error instanceof Error) {
+            return error.message;
+        }
+        return false;
+    }
+}

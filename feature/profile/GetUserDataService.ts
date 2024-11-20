@@ -1,51 +1,59 @@
+"use server";
+
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import * as schema from "@/db/schema";
 import { usersTable } from "@/db/schema";
+import { getSession } from "@/feature/profile/GetUserCookieService";
 
-import { createSession } from "@/lib/session";
-import { compareHash, FormatUserData, ILoginInput, IUserData, IUserDBResponse } from "@/feature/users/validators/UserValidator";
+import { FormatUserData, type IUserData } from "@/feature/users/validators/UserValidator";
+
 
 const db = drizzle(process.env.DATABASE_URL!, { schema });
 
-export interface IPaymentUserData {
-    cardHolder: string;
-    cardNumber: string;
-    cardProvider: string;
-    cardExpiration: string;
-    cardCvv: string;
+interface IGetUserDataFunctionReturn {
+    status: boolean,
+    argument: IUserData | string;
 }
 
-interface IUserLoginService {
-    login ({ email, password }: ILoginInput): Promise<boolean>;
+export async function GetUserDataFunction (): Promise<IGetUserDataFunctionReturn> {
+    const data = new GetUserDataService();
+    const output = await data.get();
+
+    if (!output) {
+        return { status: output, argument: data.error! };
+    }
+    return { status: output, argument: data.user! };
 }
 
-export class UserLoginService implements IUserLoginService{
-    public error: string | undefined;
+
+class GetUserDataService {
     public user: IUserData | undefined;
-    
-    async login (data: ILoginInput): Promise<boolean> {
+    public error: string | undefined;
+
+    async get(): Promise<boolean> {
         try {
+            const userId = await getSession();
+        
+            if (!userId) {
+                this.error = "There is no user logged in.";
+                return false;
+            }
+
             const user = await db.query.usersTable.findFirst({
-                where: eq(usersTable.email, data.email),
+                where: eq(usersTable.id, userId),
                 with: {
                     addressTable: true,
                     paymentTable: true,
                 }
             });
-            
+
             if (!user) {
-                throw new Error("Invalid email credential, please try again.");
-            }
-
-            if (!await compareHash(data.password, user.password)) {
-                throw new Error("Invalid password credential, please try again.");
-            }
-
-            await createSession(user.id.toString());
+                throw new Error ("This user was nout found in database, please try again.")
+            };
 
             const userFormatData = FormatUserData(user);
-            
+
             if (!userFormatData) {
                 this.error = "Something went wrong, please try again later.";
                 return false
@@ -57,7 +65,7 @@ export class UserLoginService implements IUserLoginService{
             }
 
             this.user = userFormatData;
-
+            
             return true;
         } catch (error) {
             if (error instanceof Error) {
@@ -65,5 +73,6 @@ export class UserLoginService implements IUserLoginService{
             }
             return false;
         }
+
     }
 }

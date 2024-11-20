@@ -51,8 +51,8 @@ export default function Page () {
             }
         );
 
-        if (!response[0]) {
-            toast.error(response[1]);
+        if (!response.status) {
+            toast.error(response.argument as string);
             return false;
         }
         
