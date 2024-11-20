@@ -48,8 +48,8 @@ export default function Page () {
     }
     
     function redirectUser (message: string) {
-        toast.success(message) 
-        router.push("/profile")
+        toast.success(message);
+        router.push("/");
     }
     
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<boolean> {
