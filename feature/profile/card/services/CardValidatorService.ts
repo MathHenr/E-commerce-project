@@ -31,7 +31,7 @@ class CardValidatorService implements ICardValidatorService {
             return false;
         }
 
-        console.log("Card register successfully.");
+        console.log("Card register successfully."); // TODO - register card in database
 
         return true;
     }
