@@ -1,6 +1,6 @@
 import { IAddressUserData } from "@/feature/profile/address/validators/AddressValidator";
 import { genSaltSync, hashSync, compare } from "bcrypt-ts";
-import { IPaymentUserData } from "@/feature/users/services/UserLoginService";
+import { IPaymentUserData } from "@/feature/profile/card/validators/CardValidator";
 
 // TYPES
 export interface ValidationRule {

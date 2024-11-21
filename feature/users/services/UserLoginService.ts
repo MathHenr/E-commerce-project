@@ -4,17 +4,9 @@ import * as schema from "@/db/schema";
 import { usersTable } from "@/db/schema";
 
 import { createSession } from "@/lib/session";
-import { compareHash, FormatUserData, ILoginInput, IUserData, IUserDBResponse } from "@/feature/users/validators/UserValidator";
+import { compareHash, FormatUserData, ILoginInput, IUserData } from "@/feature/users/validators/UserValidator";
 
 const db = drizzle(process.env.DATABASE_URL!, { schema });
-
-export interface IPaymentUserData {
-    cardHolder: string;
-    cardNumber: string;
-    cardProvider: string;
-    cardExpiration: string;
-    cardCvv: string;
-}
 
 interface IUserLoginService {
     login ({ email, password }: ILoginInput): Promise<boolean>;
