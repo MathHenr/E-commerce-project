@@ -15,13 +15,12 @@ class CreateUserService {
     constructor(
         private usersRespository: IUsersRepository,
         private validateUserData: IUserInputValidator,
-        private data: User,
     ) {}
 
-    async exec(): Promise<User | string> {
+    async exec(data: User): Promise<User | string> {
         // validating user data, I need to return a string error to show it in frontend components
         try {
-            this.validateUserData.validate();
+            this.validateUserData.validate(data);
         } catch (error) {
             if (error instanceof Error) {
                 return error.message;
@@ -30,17 +29,17 @@ class CreateUserService {
         }
         
         // verify if users exist
-        const userAlreadyExists = await this.usersRespository.exists(this.data.email);
+        const userAlreadyExists = await this.usersRespository.exists(data.email);
 
         if (userAlreadyExists) {
             throw new Error("Email already vinculated to an account.");
         }
         
         // hashing password
-        this.data.password = this.hash(this.data.password);
+        data.password = this.hash(data.password);
 
         // create an instance of User
-        const userCreate = User.create(this.data)
+        const userCreate = User.create(data)
         // create user
         const user = await this.usersRespository.register(userCreate);
         return user;

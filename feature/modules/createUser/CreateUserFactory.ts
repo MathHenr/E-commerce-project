@@ -13,9 +13,9 @@ export const createUserRules = [
     new NameValidator()
 ]
 
-export async function createUserFactory (data: User) {
+export async function createUserFactory () {
     const usersRepository = new UsersRepositoryInMemory();
-    const validateUserData = new UserValidator(createUserRules, data);
-    const createUser = new CreateUserService(usersRepository, validateUserData, data);
+    const validateUserData = new UserValidator(createUserRules);
+    const createUser = new CreateUserService(usersRepository, validateUserData);
     return createUser;
 }

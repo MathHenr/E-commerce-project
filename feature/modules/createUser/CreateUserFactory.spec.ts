@@ -11,7 +11,7 @@ describe("Create user", () => {
             password: "123456",
         };
         
-        const user = await (await createUserFactory(userData)).exec();
+        const user = (await createUserFactory()).exec(userData);
     
         expect(user).toHaveProperty("addressTable");
     })
@@ -25,10 +25,10 @@ describe("Create user", () => {
             password: "123456qewqwe",
         };
 
-        const create = await createUserFactory(userData);
+        const create = await createUserFactory();
 
-        await create.exec();
+        await create.exec(userData);
         
-        await expect(create.exec()).rejects.toEqual(new Error("Email already vinculated to an account."));
+        await expect(create.exec(userData)).rejects.toEqual(new Error("Email already vinculated to an account."));
     })
 })

@@ -1,5 +1,7 @@
+import { User } from "@/feature/entities/User";
+
 interface IUserInputValidator {
-    validate(): boolean;
+    validate(data: User): boolean;
     error: string;
 }
 

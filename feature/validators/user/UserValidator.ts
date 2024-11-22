@@ -7,18 +7,16 @@ class UserValidator implements IUserInputValidator{
 
     constructor(
         public rules: IValidationRules[],
-        public user: User
     ) {
         return Object.assign(this,{
             rules,
-            user,
         })
     }
 
-    validate(): boolean {
+    validate(data: User): boolean {
         try {
             for (const rule of this.rules){
-                if (!rule.validate(this.user)) {
+                if (!rule.validate(data)) {
                     return false;
                 }
             }

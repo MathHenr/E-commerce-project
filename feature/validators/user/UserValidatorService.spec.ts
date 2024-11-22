@@ -21,10 +21,10 @@ describe("Validate input data", () => {
             new NameValidator()
         ]
         
-        const valid = new UserValidator(rules, user);
+        const valid = new UserValidator(rules);
         
         // we expect to recive true;
-        expect(valid.validate()).toBe(true);
+        expect(valid.validate(user)).toBe(true);
     })
 
     it("We're seending a cpf with length different then 11 digits", () => {
