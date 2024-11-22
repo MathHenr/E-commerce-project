@@ -1,6 +1,5 @@
-"use server"
-
 import { DrizzleUsersRepository } from "@/feature/repositories/drizzle/DrizzelUsersRepository"
+import { UsersRepositoryInMemory } from "@/feature/repositories/in-memory/UsersRepositoryInMemory";
 import { User } from "@/feature/entities/User";
 import { UserValidator } from "@/feature/validators/user/UserValidator";
 import { CpfValidator, EmailValidator, NameValidator, PasswordValidator } from "@/feature/validators/user/UserValidatorService";
@@ -15,7 +14,7 @@ export const createUserRules = [
 ]
 
 export async function createUserFactory (data: User) {
-    const usersRepository = new DrizzleUsersRepository();
+    const usersRepository = new UsersRepositoryInMemory();
     const validateUserData = new UserValidator(createUserRules, data);
     const createUser = new CreateUserService(usersRepository, validateUserData, data);
     return createUser;
