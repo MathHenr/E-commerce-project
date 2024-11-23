@@ -1,22 +1,25 @@
-"use server"
+import { eq } from "drizzle-orm";
+import { compare } from "bcrypt-ts";
 
 import { db } from "@/db/client";
 import { createSession } from "@/lib/session";
 import { usersTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { compare } from "bcrypt-ts";
 import { IUserSignIn, IUsersRepository } from "@/feature/repositories/IUsersRepositories";
 import { User } from "@/feature/entities/User";
 
-class DrizzleUsersRepository implements IUsersRepository {
+class DrizzleUsersRepository implements IUsersRepository { 
     async register(data: User): Promise<User> {
-        const userRegistered = await db.insert(usersTable).values(data).returning();
+        try {
+            const userRegistered = await db.insert(usersTable).values(data).returning();
 
-        // await createSession(userRegistered[0].id.toString());
+            await createSession(userRegistered[0].id.toString());
 
-        const { createdAt, updatedAt, ...user} = userRegistered[0];
-        
-        return user;
+            const { createdAt, updatedAt, ...user} = userRegistered[0];
+            
+            return user;
+        } catch (error) {
+            throw new Error("Internal server error.");
+        }
     };
 
     async exists(email: string): Promise<boolean> {
@@ -37,7 +40,7 @@ class DrizzleUsersRepository implements IUsersRepository {
                 throw new Error("Invalid Password.");
             }
 
-            // await createSession(user!.id.toString());
+            await createSession(user!.id.toString());
 
             return true;
         } catch (error) {

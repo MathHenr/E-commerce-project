@@ -17,7 +17,7 @@ class CreateUserService {
         private validateUserData: IUserInputValidator,
     ) {}
 
-    async exec(data: User): Promise<User | string> {
+    async exec(data: IUserRequest): Promise<User | string> {
         // validating user data, I need to return a string error to show it in frontend components
         try {
             this.validateUserData.validate(data);

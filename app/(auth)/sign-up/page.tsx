@@ -5,11 +5,14 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 import { UserRegistrationFunction } from "@/feature/users/services/UserValidationService"
+import { createUserFactory } from "@/feature/modules/createUser/CreateUserFactory"
+
 import { toast } from "sonner"
 
 import { Swicth } from "../components/swicth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { User } from "@/feature/entities/User"
 
 export default function Page () {
     const [firstName, setFirtName] = useState('')
@@ -29,7 +32,7 @@ export default function Page () {
         router.push("/");
     }
     
-    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<boolean> {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
         
         // verify if passwords match
@@ -37,27 +40,30 @@ export default function Page () {
             toast.error("Passwords don't match, please fix it", {
                 duration: 5000,
             });
-            return false;
+            return
         }
 
         // validating user's data, return an array -> ex: [false, "Password must have 6 digits."]
-        const response = await UserRegistrationFunction(
-            {
-                firstName,
-                lastName,
-                email,
-                cpf,
-                password,
+        const data: User = {
+            firstName,
+            lastName,
+            email,
+            cpf,
+            password,
+        }
+        
+        try {
+            const createUser = await createUserFactory();
+            await createUser.exec(data);
+        } catch (error) {
+            if (error instanceof Error) {
+                // toast.error(error.message);
+                throw new Error(error.message)
             }
-        );
-
-        if (!response.status) {
-            toast.error(response.argument as string);
-            return false;
         }
         
         redirectUser("User created successfully.");
-        return true;
+        return;
     }
     
     return (
