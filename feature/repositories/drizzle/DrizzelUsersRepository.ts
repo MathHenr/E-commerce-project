@@ -1,3 +1,5 @@
+"use server"
+
 import { db } from "@/db/client";
 import { createSession } from "@/lib/session";
 import { usersTable } from "@/db/schema";
@@ -10,7 +12,7 @@ class DrizzleUsersRepository implements IUsersRepository {
     async register(data: User): Promise<User> {
         const userRegistered = await db.insert(usersTable).values(data).returning();
 
-        await createSession(userRegistered[0].id.toString());
+        // await createSession(userRegistered[0].id.toString());
 
         const { createdAt, updatedAt, ...user} = userRegistered[0];
         
