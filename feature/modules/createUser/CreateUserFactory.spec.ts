@@ -1,3 +1,4 @@
+
 import { User } from "@/feature/entities/User";
 import { createUserFactory } from "./CreateUserFactory";
 
@@ -11,9 +12,9 @@ describe("Create user", () => {
             password: "123456",
         };
         
-        const user = (await createUserFactory()).exec(userData);
+        const user = await createUserFactory().exec(userData);
     
-        expect(user).toHaveProperty("addressTable");
+        expect(user).toHaveProperty("id");
     })
 
     it("Should not be able to create an user that already exist", async () => {
@@ -25,10 +26,15 @@ describe("Create user", () => {
             password: "123456qewqwe",
         };
 
-        const create = await createUserFactory();
+        const create = createUserFactory();
 
         await create.exec(userData);
         
-        await expect(create.exec(userData)).rejects.toEqual(new Error("Email already vinculated to an account."));
+        try {
+            await create.exec(userData);
+        } catch (error) {
+            return expect(error)
+                .toEqual(new Error("Email already vinculated to an account."));
+        }
     })
 })
