@@ -29,7 +29,7 @@ Showcase what the project looks like or how it works with images, GIFs, or links
 ## 🛠️ Technologies Used:
 - **Frontend**: React, TypeScript, NextJS,
 - **Backend**: Node.js, Drizzle, Next-auth
-- **Database**: MongoDB
+- **Database**: PostgreSQL
 
 ---
 
