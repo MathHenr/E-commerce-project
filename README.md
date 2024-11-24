@@ -38,10 +38,10 @@ Provide clear and easy-to-follow steps to set up the project locally.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/MathHenr/E-commerce-project.git
 
 # Navigate to the project directory
-cd your-repo-name
+cd E-commerce-project
 
 # Install dependencies
 npm install
