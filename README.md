@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# [E-commerce Project]
 
-## Getting Started
+![License Badge](https://img.shields.io/badge/license-MIT-blue.svg)
+![Contributors](https://img.shields.io/github/contributors/MathHenr/E-commerce-project.svg)
+![Issues](https://img.shields.io/github/issues/MathHenr/E-commerce-project.svg)
 
-First, run the development server:
+## 🌟 Overview
+This project is a learning-focused replica of an e-commerce clothing store template built by [Hamza Naeem](https://www.figma.com/community/file/1273571982885059508/e-commerce-website-template-freebie), featuring user profile management and sign-in/sign-up functionality. It was designed to help me practice building dynamic and user-friendly web applications.
+
+This project was developed as a self-educational initiative to enhance my skills in NextJS, Drizzle-ORM and Jest.
+---
+
+## 🚀 Features
+- ⚙ Profile Management.
+- 📟 Sign-in/Sign-up functionality.
+- 🆔 Sing-in with an Google account
+---
+
+## 📸 Screenshots/Demo
+Showcase what the project looks like or how it works with images, GIFs, or links to a live demo.
+
+**Example**:
+![Screenshot](./public/image.png)
+
+[Live Demo](https://your-project-demo-link.com)
+
+---
+
+## 🛠️ Technologies Used:
+- **Frontend**: React, TypeScript, NextJS,
+- **Backend**: Node.js, Drizzle, Next-auth
+- **Database**: MongoDB
+
+---
+
+## 📦 Installation
+Provide clear and easy-to-follow steps to set up the project locally.
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/your-repo-name.git
+
+# Navigate to the project directory
+cd your-repo-name
+
+# Install dependencies
+npm install
+
+# Start the docker 
+docker compose up 
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
